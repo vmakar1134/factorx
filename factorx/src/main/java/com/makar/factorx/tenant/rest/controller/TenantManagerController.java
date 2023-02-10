@@ -6,7 +6,9 @@ import com.makar.factorx.tenant.rest.model.TenantResponse;
 import com.makar.factorx.tenant.service.TenantService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 @RequiredArgsConstructor
 public class TenantManagerController implements TenantManagerApi {
 
