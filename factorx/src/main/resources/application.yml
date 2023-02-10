@@ -1,1 +1,7 @@
-
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/factorx_dev?createDatabaseIfNotExist=true
+    username: factorx_dev
+    password: factorx_dev
+  jpa:
+    open-in-view: false

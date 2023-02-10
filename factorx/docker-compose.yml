@@ -1,0 +1,27 @@
+version: '3'
+services:
+  factorx-db:
+    container_name: factorx-db
+    image: mysql:8.0
+    env_file: .env.local
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+      - ./db_data:/var/lib/mysql
+    healthcheck:
+      test: out=$$(mysqladmin ping -h localhost -P 3306 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD 2>&1); echo $$out | grep 'mysqld is alive' || { echo $$out; exit 1; }
+      timeout: 5s
+      interval: 2s
+      retries: 200
+
+#  factorx-app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile-local
+#    env_file: .env.local
+#    ports:
+#      - '8080:8080'
+#    depends_on:
+#     factorx-db:
+#        condition: service_healthy
