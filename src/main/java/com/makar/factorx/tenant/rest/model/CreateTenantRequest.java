@@ -7,4 +7,6 @@ import lombok.Setter;
 @Setter
 public class CreateTenantRequest {
 
+    private String schemaName;
+
 }
