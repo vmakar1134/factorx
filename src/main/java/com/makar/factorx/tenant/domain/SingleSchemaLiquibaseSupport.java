@@ -15,7 +15,7 @@ import org.springframework.core.io.ResourceLoader;
 @Slf4j
 @Setter
 @Getter(value = AccessLevel.PRIVATE)
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SingleSchemaLiquibaseSupport {
 
     private DataSource dataSource;

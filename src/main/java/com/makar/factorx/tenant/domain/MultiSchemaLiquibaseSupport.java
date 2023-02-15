@@ -4,15 +4,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import javax.sql.DataSource;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Setter
-@Getter(value = AccessLevel.PRIVATE)
-@NoArgsConstructor
+@Setter(value = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MultiSchemaLiquibaseSupport implements Iterable<SingleSchemaLiquibaseSupport> {
 
     private Collection<SingleSchemaLiquibaseSupport> liquibaseSupports;
