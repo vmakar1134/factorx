@@ -1,5 +1,5 @@
 
-package com.makar.factorx.tenant.connection;
+package com.makar.factorx.admin.connection;
 
 import java.sql.Connection;
 import java.sql.SQLException;

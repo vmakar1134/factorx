@@ -1,7 +1,7 @@
-package com.makar.factorx.tenant.config;
+package com.makar.factorx.admin.config;
 
-import com.makar.factorx.tenant.domain.MultiSchemaLiquibaseSupport;
-import com.makar.factorx.tenant.domain.SingleSchemaLiquibaseSupport;
+import com.makar.factorx.admin.domain.MultiSchemaLiquibaseSupport;
+import com.makar.factorx.admin.domain.SingleSchemaLiquibaseSupport;
 import java.sql.SQLException;
 import java.util.Collection;
 import javax.sql.DataSource;
@@ -33,14 +33,23 @@ public class LiquibaseService {
     }
 
     public void runOnSchema(String schema) {
+        log.info("Single schema liquibase engaged.");
+
         var liquibaseSupport = SingleSchemaLiquibaseSupport.baseInstance(dataSource, schema, TENANTS_MASTER_XML);
         runUpdate(liquibaseSupport);
+    }
+
+    public void dropSchema(String schema) {
+        log.info("Delete schema liquibase engaged.");
+
+        var dropSchemaQuery = "drop schema " + schema;
+        executeUpdateStatement(dropSchemaQuery);
     }
 
     private void runUpdate(SingleSchemaLiquibaseSupport liquibase) {
         var schema = liquibase.getSchema();
         log.info("Initializing Liquibase for schema: {}.", schema);
-        createSchemaIfNotExists(schema);
+        createSchema(schema);
         executeUpdate(liquibase);
         log.info("Liquibase ran for schema: {}. ", schema);
     }
@@ -55,14 +64,19 @@ public class LiquibaseService {
         }
     }
 
-    private void createSchemaIfNotExists(String schema) {
+    private void createSchema(String schema) {
+        var createSchemaQuery = "create schema if not exists " + schema;
+        executeUpdateStatement(createSchemaQuery);
+    }
+
+    private void executeUpdateStatement(String query) {
         try (
             var connection = dataSource.getConnection();
             var statement = connection.createStatement()
         ) {
-            statement.executeUpdate("create schema if not exists " + schema);
+            statement.executeUpdate(query);
         } catch (SQLException e) {
-            log.error("Unable to create schema: {}", schema);
+            log.error("Unable to execute update query: {}", query);
             // TODO: create dedicated exception.
             throw new RuntimeException(e);
         }

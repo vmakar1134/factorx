@@ -1,11 +1,11 @@
-package com.makar.factorx.tenant.service;
+package com.makar.factorx.admin.service;
 
-import com.makar.factorx.tenant.config.LiquibaseService;
-import com.makar.factorx.tenant.domain.entity.Tenant;
-import com.makar.factorx.tenant.mapper.TenantMapper;
-import com.makar.factorx.tenant.repository.TenantRepository;
-import com.makar.factorx.tenant.rest.model.CreateTenantRequest;
-import com.makar.factorx.tenant.rest.model.TenantResponse;
+import com.makar.factorx.admin.config.LiquibaseService;
+import com.makar.factorx.admin.domain.entity.Tenant;
+import com.makar.factorx.admin.mapper.TenantMapper;
+import com.makar.factorx.admin.repository.TenantRepository;
+import com.makar.factorx.admin.rest.model.CreateTenantRequest;
+import com.makar.factorx.admin.rest.model.TenantResponse;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
@@ -45,6 +45,12 @@ public class TenantService {
         var tenant = tenantMapper.toEntity(request);
         tenantRepository.save(tenant);
         liquibaseService.runOnSchema(request.getSchemaName());
+    }
+
+    public void delete(Long tenantId) {
+        var tenant = getById(tenantId);
+        tenantRepository.deleteById(tenantId);
+        liquibaseService.dropSchema(tenant.getSchemaName());
     }
 
     private Tenant getById(Long id) {

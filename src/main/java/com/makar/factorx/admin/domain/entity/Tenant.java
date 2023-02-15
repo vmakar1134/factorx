@@ -1,4 +1,4 @@
-package com.makar.factorx.tenant.domain.entity;
+package com.makar.factorx.admin.domain.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

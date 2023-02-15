@@ -1,4 +1,4 @@
-package com.makar.factorx.tenant.service;
+package com.makar.factorx.admin.service;
 
 import org.springframework.stereotype.Component;
 

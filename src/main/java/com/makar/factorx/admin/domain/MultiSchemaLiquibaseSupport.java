@@ -1,4 +1,4 @@
-package com.makar.factorx.tenant.domain;
+package com.makar.factorx.admin.domain;
 
 import java.util.Collection;
 import java.util.Iterator;

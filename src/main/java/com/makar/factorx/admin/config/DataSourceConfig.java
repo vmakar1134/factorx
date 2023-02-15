@@ -1,4 +1,4 @@
-package com.makar.factorx.tenant.config;
+package com.makar.factorx.admin.config;
 
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;

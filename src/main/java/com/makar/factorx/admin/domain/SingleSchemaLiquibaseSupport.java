@@ -1,4 +1,4 @@
-package com.makar.factorx.tenant.domain;
+package com.makar.factorx.admin.domain;
 
 import java.io.File;
 import java.util.Map;
