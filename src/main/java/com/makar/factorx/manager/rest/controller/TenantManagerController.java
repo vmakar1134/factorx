@@ -1,9 +1,9 @@
-package com.makar.factorx.admin.rest.controller;
+package com.makar.factorx.manager.rest.controller;
 
-import com.makar.factorx.admin.rest.controller.api.TenantManagerApi;
-import com.makar.factorx.admin.rest.model.CreateTenantRequest;
-import com.makar.factorx.admin.rest.model.TenantResponse;
-import com.makar.factorx.admin.service.TenantService;
+import com.makar.factorx.manager.rest.controller.api.TenantManagerApi;
+import com.makar.factorx.manager.rest.model.CreateTenantRequest;
+import com.makar.factorx.manager.rest.model.TenantResponse;
+import com.makar.factorx.manager.service.TenantService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

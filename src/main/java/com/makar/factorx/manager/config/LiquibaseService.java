@@ -1,7 +1,7 @@
-package com.makar.factorx.admin.config;
+package com.makar.factorx.manager.config;
 
-import com.makar.factorx.admin.domain.MultiSchemaLiquibaseSupport;
-import com.makar.factorx.admin.domain.SingleSchemaLiquibaseSupport;
+import com.makar.factorx.manager.domain.MultiSchemaLiquibaseSupport;
+import com.makar.factorx.manager.domain.SingleSchemaLiquibaseSupport;
 import java.sql.SQLException;
 import java.util.Collection;
 import javax.sql.DataSource;

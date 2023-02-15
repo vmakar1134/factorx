@@ -1,7 +1,7 @@
-package com.makar.factorx.admin.rest.controller.api;
+package com.makar.factorx.manager.rest.controller.api;
 
-import com.makar.factorx.admin.rest.model.CreateTenantRequest;
-import com.makar.factorx.admin.rest.model.TenantResponse;
+import com.makar.factorx.manager.rest.model.CreateTenantRequest;
+import com.makar.factorx.manager.rest.model.TenantResponse;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

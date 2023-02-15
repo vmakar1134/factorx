@@ -1,11 +1,11 @@
-package com.makar.factorx.admin.service;
+package com.makar.factorx.manager.service;
 
-import com.makar.factorx.admin.config.LiquibaseService;
-import com.makar.factorx.admin.domain.entity.Tenant;
-import com.makar.factorx.admin.mapper.TenantMapper;
-import com.makar.factorx.admin.repository.TenantRepository;
-import com.makar.factorx.admin.rest.model.CreateTenantRequest;
-import com.makar.factorx.admin.rest.model.TenantResponse;
+import com.makar.factorx.manager.config.LiquibaseService;
+import com.makar.factorx.manager.domain.entity.Tenant;
+import com.makar.factorx.manager.mapper.TenantMapper;
+import com.makar.factorx.manager.repository.TenantRepository;
+import com.makar.factorx.manager.rest.model.CreateTenantRequest;
+import com.makar.factorx.manager.rest.model.TenantResponse;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;

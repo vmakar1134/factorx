@@ -1,4 +1,4 @@
-package com.makar.factorx.admin.config;
+package com.makar.factorx.manager.config;
 
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
@@ -27,14 +27,14 @@ public class DataSourceConfig {
     }
 
     @Bean
-    @ConfigurationProperties("spring.datasource.admin")
-    DataSourceProperties adminDataSourceProperties() {
+    @ConfigurationProperties("spring.datasource.manager")
+    DataSourceProperties managerDataSourceProperties() {
         return new DataSourceProperties();
     }
 
     @Bean
-    DataSource adminDataSource() {
-        return adminDataSourceProperties()
+    DataSource managerDataSource() {
+        return managerDataSourceProperties()
             .initializeDataSourceBuilder()
             .build();
     }

@@ -1,4 +1,4 @@
-package com.makar.factorx.admin.rest.model;
+package com.makar.factorx.manager.rest.model;
 
 import lombok.Getter;
 import lombok.Setter;

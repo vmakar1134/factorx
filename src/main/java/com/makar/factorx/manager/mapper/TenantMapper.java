@@ -1,8 +1,8 @@
-package com.makar.factorx.admin.mapper;
+package com.makar.factorx.manager.mapper;
 
-import com.makar.factorx.admin.domain.entity.Tenant;
-import com.makar.factorx.admin.rest.model.CreateTenantRequest;
-import com.makar.factorx.admin.rest.model.TenantResponse;
+import com.makar.factorx.manager.domain.entity.Tenant;
+import com.makar.factorx.manager.rest.model.CreateTenantRequest;
+import com.makar.factorx.manager.rest.model.TenantResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

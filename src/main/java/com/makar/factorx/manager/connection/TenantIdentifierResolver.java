@@ -1,6 +1,6 @@
-package com.makar.factorx.admin.connection;
+package com.makar.factorx.manager.connection;
 
-import com.makar.factorx.admin.service.TokenIdentifierResolver;
+import com.makar.factorx.manager.service.TokenIdentifierResolver;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.cfg.AvailableSettings;

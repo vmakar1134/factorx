@@ -1,5 +1,5 @@
 
-package com.makar.factorx.admin.config;
+package com.makar.factorx.manager.config;
 
 import javax.sql.DataSource;
 import liquibase.integration.spring.SpringLiquibase;
@@ -15,9 +15,9 @@ import org.springframework.context.annotation.Configuration;
 public class AdminLiquibaseConfig {
 
     // TODO: move to properties class.
-    public static final String CLASSPATH_DB_ADMIN_MASTER_XML = "classpath:db/admin/master.xml";
+    public static final String CLASSPATH_DB_ADMIN_MASTER_XML = "classpath:db/manager/master.xml";
 
-    @Qualifier("adminDataSource")
+    @Qualifier("managerDataSource")
     private final DataSource adminDataSource;
 
     @Bean
