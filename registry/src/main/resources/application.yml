@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/registry?createDatabaseIfNotExist=true
+    username: root
+    password: 123456
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    registry:
+      change-log: classpath:/db/registry/master.xml
+    tenant:
+      change-log: classpath:/db/tenants/master.xml
