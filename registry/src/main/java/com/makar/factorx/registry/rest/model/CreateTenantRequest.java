@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+// TODO: use records.
 public class CreateTenantRequest {
 
     private String schemaName;

@@ -1,4 +1,4 @@
-package com.makar.factorx.registry.config;
+package com.makar.factorx.registry.service;
 
 import com.makar.factorx.registry.domain.liquibase.MultiSchemaLiquibaseSupport;
 import com.makar.factorx.registry.domain.liquibase.SingleSchemaLiquibaseSupport;

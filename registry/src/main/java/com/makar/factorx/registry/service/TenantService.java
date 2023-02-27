@@ -1,6 +1,5 @@
 package com.makar.factorx.registry.service;
 
-import com.makar.factorx.registry.config.LiquibaseService;
 import com.makar.factorx.registry.domain.entity.Tenant;
 import com.makar.factorx.registry.mapper.TenantMapper;
 import com.makar.factorx.registry.repository.TenantRepository;
