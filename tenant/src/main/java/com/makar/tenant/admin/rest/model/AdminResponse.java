@@ -1,4 +1,4 @@
-package com.makar.tenant.rest.model;
+package com.makar.tenant.admin.rest.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,7 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 // TODO: use records.
-public class CreateAdminRequest {
+public class AdminResponse {
+
+    private Long id;
 
     private String email;
 

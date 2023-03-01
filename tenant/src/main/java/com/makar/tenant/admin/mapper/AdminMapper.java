@@ -1,10 +1,10 @@
-package com.makar.tenant.mapper;
+package com.makar.tenant.admin.mapper;
 
 
 
-import com.makar.tenant.entity.Admin;
-import com.makar.tenant.rest.model.AdminResponse;
-import com.makar.tenant.rest.model.CreateAdminRequest;
+import com.makar.tenant.admin.entity.Admin;
+import com.makar.tenant.admin.rest.model.AdminResponse;
+import com.makar.tenant.admin.rest.model.CreateAdminRequest;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

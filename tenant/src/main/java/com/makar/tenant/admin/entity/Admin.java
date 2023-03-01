@@ -1,4 +1,4 @@
-package com.makar.tenant.entity;
+package com.makar.tenant.admin.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

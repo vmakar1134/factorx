@@ -1,7 +1,7 @@
-package com.makar.tenant.repository;
+package com.makar.tenant.admin.repository;
 
 
-import com.makar.tenant.entity.Admin;
+import com.makar.tenant.admin.entity.Admin;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AdminRepository extends JpaRepository<Admin, Long> {

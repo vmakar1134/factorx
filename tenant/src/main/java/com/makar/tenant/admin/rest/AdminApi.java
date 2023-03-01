@@ -1,8 +1,8 @@
-package com.makar.tenant.rest.api;
+package com.makar.tenant.admin.rest;
 
 
-import com.makar.tenant.rest.model.AdminResponse;
-import com.makar.tenant.rest.model.CreateAdminRequest;
+import com.makar.tenant.admin.rest.model.AdminResponse;
+import com.makar.tenant.admin.rest.model.CreateAdminRequest;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

@@ -1,4 +1,4 @@
-package com.makar.tenant.connection;
+package com.makar.tenant.service;
 
 import com.makar.tenant.service.TokenIdentifierResolver;
 import java.util.Map;

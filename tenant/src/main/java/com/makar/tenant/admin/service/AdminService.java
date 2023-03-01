@@ -1,11 +1,11 @@
-package com.makar.tenant.service;
+package com.makar.tenant.admin.service;
 
 
-import com.makar.tenant.entity.Admin;
-import com.makar.tenant.mapper.AdminMapper;
-import com.makar.tenant.repository.AdminRepository;
-import com.makar.tenant.rest.model.AdminResponse;
-import com.makar.tenant.rest.model.CreateAdminRequest;
+import com.makar.tenant.admin.entity.Admin;
+import com.makar.tenant.admin.mapper.AdminMapper;
+import com.makar.tenant.admin.repository.AdminRepository;
+import com.makar.tenant.admin.rest.model.AdminResponse;
+import com.makar.tenant.admin.rest.model.CreateAdminRequest;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
