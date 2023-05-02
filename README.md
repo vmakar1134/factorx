@@ -1,8 +1,10 @@
 # Multitenant Application
 
-This is a Spring Boot application that uses a multitenant architecture to allow multiple tenants to use the same application with their own isolated data.
+This is a Spring Boot application that uses a multitenant architecture to allow multiple tenants to use the same application with their own isolated
+data.
 
 ## Architecture
+
 The application is composed of several modules that work together to provide the desired functionality. The modules are:
 
 - Registry: Creates and manages schemas for each tenant.
@@ -11,6 +13,7 @@ The application is composed of several modules that work together to provide the
 - Mobile: Provides a mobile interface for the application.
 
 ## Features
+
 The application includes the following features:
 
 - User management: Allows the super admin to manage all users across all tenants.
@@ -20,6 +23,7 @@ The application includes the following features:
 - RabbitMQ: Uses an event-driven approach with RabbitMQ to allow modules to communicate without direct coupling.
 
 ## Getting Started
+
 To get started with the application, follow these steps:
 
 1. Clone the repository to your local machine.
@@ -28,6 +32,7 @@ To get started with the application, follow these steps:
 4. Navigate to `http://localhost:8080` in your web browser to access the application.
 
 ## Dependencies
+
 The application uses the following dependencies:
 
 - Spring Boot 2.5.4
