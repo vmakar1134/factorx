@@ -7,3 +7,6 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: none
+
+server:
+  port: 8083

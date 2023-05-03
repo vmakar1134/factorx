@@ -12,3 +12,10 @@ spring:
       change-log: classpath:/db/registry/master.xml
     tenant:
       change-log: classpath:/db/tenants/master.xml
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+server:
+  port: 8082
