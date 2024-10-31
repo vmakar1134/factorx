@@ -1,6 +1,5 @@
 package com.makar.tenant.service;
 
-import com.makar.tenant.service.TokenIdentifierResolver;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.cfg.AvailableSettings;

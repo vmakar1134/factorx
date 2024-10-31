@@ -1,9 +1,9 @@
 package com.makar.tenant.admin.rest;
 
 
-import com.makar.tenant.admin.service.AdminService;
 import com.makar.tenant.admin.rest.model.AdminResponse;
 import com.makar.tenant.admin.rest.model.CreateAdminRequest;
+import com.makar.tenant.admin.service.AdminService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
