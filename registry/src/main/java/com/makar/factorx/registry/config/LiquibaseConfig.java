@@ -9,13 +9,12 @@ import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class LiquibaseConfig {
-
-    private final DataSource dataSource;
 
     @Bean
     @ConfigurationProperties("spring.liquibase.registry")
@@ -30,7 +29,8 @@ public class LiquibaseConfig {
     }
 
     @Bean
-    SpringLiquibase springLiquibase() {
+    @DependsOn("dataSource")
+    SpringLiquibase springLiquibase(DataSource dataSource) {
         var springLiquibase = new SpringLiquibase();
         springLiquibase.setDataSource(dataSource);
         springLiquibase.setChangeLog(registryProperties().getChangeLog());

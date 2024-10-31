@@ -1,12 +1,12 @@
 package com.makar.factorx.registry.service;
 
 import com.makar.factorx.registry.domain.entity.Tenant;
+import com.makar.factorx.registry.exception.EntityNotFoundException;
 import com.makar.factorx.registry.mapper.TenantMapper;
 import com.makar.factorx.registry.repository.TenantRepository;
 import com.makar.factorx.registry.rest.model.CreateTenantRequest;
 import com.makar.factorx.registry.rest.model.TenantResponse;
 import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -49,17 +49,18 @@ public class TenantService {
     public void delete(Long tenantId) {
         var tenant = getById(tenantId);
         tenantRepository.deleteById(tenantId);
-        liquibaseService.dropSchema(tenant.getSchemaName());
+        liquibaseService.dropSchema(tenant.schemaName());
     }
 
     private Tenant getById(Long id) {
         return tenantRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Tenant not found by id: " + id));
+            .orElseThrow(() -> new EntityNotFoundException(Tenant.class, "id", id));
     }
 
     private List<String> getSchemas() {
         return tenantRepository.findAll().stream()
-            .map(Tenant::getSchemaName)
+            .map(Tenant::schemaName)
             .toList();
     }
+
 }

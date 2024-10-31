@@ -1,21 +1,12 @@
 package com.makar.factorx.registry.domain.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
-@Entity
-@Getter
-@Setter
-public class Tenant {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String schemaName;
+@Table
+public record Tenant(
+    @Id Long id,
+    String schemaName
+) {
 
 }
