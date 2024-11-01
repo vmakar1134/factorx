@@ -1,11 +1,11 @@
 package com.makar.tenant.user.service;
 
+import com.makar.tenant.exception.EntityNotFoundException;
 import com.makar.tenant.user.entity.User;
 import com.makar.tenant.user.mapper.UserMapper;
 import com.makar.tenant.user.repository.UserRepository;
 import com.makar.tenant.user.rest.model.CreateUserRequest;
 import com.makar.tenant.user.rest.model.UserResponse;
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,6 +39,7 @@ public class UserService {
     }
 
     private User getById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found by id: {} " + id));
+        return userRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(User.class, "id", id));
     }
 }

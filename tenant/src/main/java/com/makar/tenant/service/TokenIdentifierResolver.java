@@ -8,6 +8,6 @@ public class TokenIdentifierResolver {
 
     public String resolveTenant() {
         // TODO: implement.
-        return "dummy";
+        return "test";
     }
 }

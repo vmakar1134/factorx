@@ -1,23 +1,14 @@
 package com.makar.tenant.user.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
-@Entity
-@Getter
-@Setter
-public class User {
-
+@Table
+public record User(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id,
 
-    @Column(unique = true)
-    private String username;
+    String username
+) {
 
 }

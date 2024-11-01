@@ -6,7 +6,7 @@ import com.makar.tenant.admin.mapper.AdminMapper;
 import com.makar.tenant.admin.repository.AdminRepository;
 import com.makar.tenant.admin.rest.model.AdminResponse;
 import com.makar.tenant.admin.rest.model.CreateAdminRequest;
-import jakarta.persistence.EntityNotFoundException;
+import com.makar.tenant.exception.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -41,6 +41,6 @@ public class AdminService {
 
     private Admin getById(Long id) {
         return adminRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Admin not found by id: " + id));
+            .orElseThrow(() -> new EntityNotFoundException(Admin.class, "id", id));
     }
 }
