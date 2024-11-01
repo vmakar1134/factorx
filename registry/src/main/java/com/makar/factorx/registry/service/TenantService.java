@@ -46,6 +46,7 @@ public class TenantService {
         liquibaseService.runOnSchema(request.getSchemaName());
     }
 
+    @Transactional
     public void delete(Long tenantId) {
         var tenant = getById(tenantId);
         tenantRepository.deleteById(tenantId);

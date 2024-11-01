@@ -6,14 +6,14 @@ import java.sql.SQLException;
 import java.util.Map;
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.cfg.AvailableSettings;
+import org.hibernate.cfg.MultiTenancySettings;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-class MultiTenantSchemaConnectionProvider implements MultiTenantConnectionProvider, HibernatePropertiesCustomizer {
+class MultiTenantSchemaConnectionProvider implements MultiTenantConnectionProvider<String>, HibernatePropertiesCustomizer {
 
     private final transient DataSource dataSource;
 
@@ -48,7 +48,7 @@ class MultiTenantSchemaConnectionProvider implements MultiTenantConnectionProvid
 
     @Override
     public void customize(Map<String, Object> hibernateProperties) {
-        hibernateProperties.put(AvailableSettings.MULTI_TENANT_CONNECTION_PROVIDER, this);
+        hibernateProperties.put(MultiTenancySettings.MULTI_TENANT_CONNECTION_PROVIDER, this);
     }
 
     @Override
