@@ -1,18 +1,23 @@
 package com.makar.tenant.user.service;
 
 import com.makar.tenant.exception.EntityNotFoundException;
+import com.makar.tenant.security.PrincipalLookup;
+import com.makar.tenant.security.RoleName;
+import com.makar.tenant.security.UserPrincipal;
 import com.makar.tenant.user.entity.User;
 import com.makar.tenant.user.mapper.UserMapper;
 import com.makar.tenant.user.repository.UserRepository;
 import com.makar.tenant.user.rest.model.CreateUserRequest;
 import com.makar.tenant.user.rest.model.UserResponse;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements PrincipalLookup {
 
     private final UserRepository userRepository;
 
@@ -25,8 +30,8 @@ public class UserService {
 
     public List<UserResponse> get() {
         return userRepository.findAll().stream()
-            .map(userMapper::toResponse)
-            .toList();
+                .map(userMapper::toResponse)
+                .toList();
     }
 
     public void create(CreateUserRequest request) {
@@ -40,6 +45,20 @@ public class UserService {
 
     private User getById(Long id) {
         return userRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(User.class, "id", id));
+                .orElseThrow(() -> new EntityNotFoundException(User.class, "id", id));
+    }
+
+    @Override
+    public Optional<UserPrincipal> findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(user -> new UserPrincipal()
+                        .username(user.username())
+                        .password(user.password())
+                        .role(supportedRole()));
+    }
+
+    @Override
+    public RoleName supportedRole() {
+        return RoleName.USER;
     }
 }

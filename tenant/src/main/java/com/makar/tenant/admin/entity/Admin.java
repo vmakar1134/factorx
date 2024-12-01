@@ -5,10 +5,9 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table
 public record Admin(
-    @Id
-    Long id,
-
-    String email
+        @Id
+        Long id,
+        String password,
+        String email
 ) {
-
 }
