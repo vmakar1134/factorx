@@ -15,7 +15,10 @@
             <column name="password" type="text"/>
             <column name="otp" type="text"/>
             <column name="otp_created_at" type="timestamp">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenant_id">
+                <constraints nullable="false"/>
             </column>
         </createTable>
         <addUniqueConstraint columnNames="email" constraintName="uc_admin_email" tableName="admin"/>

@@ -17,6 +17,8 @@ public class UserPrincipal implements UserDetails {
 
     private RoleName role;
 
+    private String tenantName;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.toString()));
@@ -34,5 +36,9 @@ public class UserPrincipal implements UserDetails {
 
     public RoleName getRole() {
         return role;
+    }
+
+    public String getTenantName() {
+        return tenantName;
     }
 }

@@ -14,7 +14,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private static final String SECRET_STRING = "your-secret-key";
+    private static final String SECRET_STRING = "your-secret-key-256-bytes-long-your-secret-key-256-bytes-long";
 
     private static final Key SECRET_KEY = Keys.hmacShaKeyFor(SECRET_STRING.getBytes());
     private static final String ROLE_CLAIM = "role";

@@ -27,4 +27,7 @@ public interface AdminApi {
     @DeleteMapping("{id}")
     ResponseEntity<Void> deleteAdmin(@PathVariable("id") Long id);
 
+    @PostMapping("/auth/login")
+    ResponseEntity<Void> login();
+
 }

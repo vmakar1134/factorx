@@ -38,4 +38,9 @@ public class AdminController  implements AdminApi {
         adminService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @Override
+    public ResponseEntity<Void> login() {
+        return null;
+    }
 }

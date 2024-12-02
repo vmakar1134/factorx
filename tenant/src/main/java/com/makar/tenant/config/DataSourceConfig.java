@@ -1,7 +1,8 @@
 package com.makar.tenant.config;
 
 import com.makar.tenant.connection.TenantAwareDataSource;
-import com.makar.tenant.service.TokenIdentifierResolver;
+import com.makar.tenant.security.TokenIdentifierResolver;
+
 import javax.sql.DataSource;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.context.annotation.Bean;
