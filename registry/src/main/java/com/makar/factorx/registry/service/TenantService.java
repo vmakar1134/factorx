@@ -7,10 +7,11 @@ import com.makar.factorx.registry.repository.TenantRepository;
 import com.makar.factorx.registry.rest.model.CreateTenantRequest;
 import com.makar.factorx.registry.rest.model.TenantResponse;
 import jakarta.annotation.PostConstruct;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,8 +31,8 @@ public class TenantService {
 
     public List<TenantResponse> get() {
         return tenantRepository.findAll().stream()
-            .map(tenantMapper::toResponse)
-            .toList();
+                .map(tenantMapper::toResponse)
+                .toList();
     }
 
     public TenantResponse get(Long id) {
@@ -55,13 +56,13 @@ public class TenantService {
 
     private Tenant getById(Long id) {
         return tenantRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(Tenant.class, "id", id));
+                .orElseThrow(() -> new EntityNotFoundException(Tenant.class, "id", id));
     }
 
     private List<String> getSchemas() {
         return tenantRepository.findAll().stream()
-            .map(Tenant::schemaName)
-            .toList();
+                .map(Tenant::schemaName)
+                .toList();
     }
 
 }

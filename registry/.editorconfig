@@ -14,6 +14,7 @@ ij_smart_tabs = false
 ij_visual_guides = none
 ij_wrap_on_typing = false
 
+[*.feature]
 indent_size = 2
 
 [*.java]
@@ -284,6 +285,7 @@ ij_editorconfig_space_before_colon = true
 ij_editorconfig_space_before_comma = false
 ij_editorconfig_spaces_around_assignment_operators = true
 
+[{*.bash,*.sh,*.zsh}]
 indent_size = 2
 tab_width = 2
 ij_shell_binary_ops_start_line = false
