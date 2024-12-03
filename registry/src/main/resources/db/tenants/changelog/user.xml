@@ -13,9 +13,6 @@
       </column>
         <column name="password" type="text"/>
         <column name="username" type="text"/>
-        <column name="tenant_id" type="BIGINT">
-          <constraints nullable="false"/>
-        </column>
     </createTable>
   </changeSet>
 

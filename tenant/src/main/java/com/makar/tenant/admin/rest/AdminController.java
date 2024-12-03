@@ -3,17 +3,23 @@ package com.makar.tenant.admin.rest;
 
 import com.makar.tenant.admin.rest.model.AdminResponse;
 import com.makar.tenant.admin.rest.model.CreateAdminRequest;
+import com.makar.tenant.admin.rest.model.LoginAdminRequest;
+import com.makar.tenant.admin.rest.model.RegisterAdminRequest;
+import com.makar.tenant.admin.service.AdminAuthService;
 import com.makar.tenant.admin.service.AdminService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
-public class AdminController  implements AdminApi {
+public class AdminController implements AdminApi {
 
     private final AdminService adminService;
+
+    private final AdminAuthService adminAuthService;
 
     @Override
     public ResponseEntity<AdminResponse> getAdmin(Long id) {
@@ -40,7 +46,14 @@ public class AdminController  implements AdminApi {
     }
 
     @Override
-    public ResponseEntity<Void> login() {
-        return null;
+    public ResponseEntity<Void> login(LoginAdminRequest request) {
+        adminAuthService.login(request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> register(RegisterAdminRequest request) {
+        adminAuthService.register(request);
+        return ResponseEntity.noContent().build();
     }
 }

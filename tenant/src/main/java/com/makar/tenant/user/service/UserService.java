@@ -1,9 +1,6 @@
 package com.makar.tenant.user.service;
 
 import com.makar.tenant.exception.EntityNotFoundException;
-import com.makar.tenant.security.PrincipalLookup;
-import com.makar.tenant.security.RoleName;
-import com.makar.tenant.security.UserPrincipal;
 import com.makar.tenant.user.entity.User;
 import com.makar.tenant.user.mapper.UserMapper;
 import com.makar.tenant.user.repository.UserRepository;
@@ -13,11 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements PrincipalLookup {
+public class UserService {
 
     private final UserRepository userRepository;
 
@@ -48,17 +44,4 @@ public class UserService implements PrincipalLookup {
                 .orElseThrow(() -> new EntityNotFoundException(User.class, "id", id));
     }
 
-    @Override
-    public Optional<UserPrincipal> findByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .map(user -> new UserPrincipal()
-                        .username(user.username())
-                        .password(user.password())
-                        .role(supportedRole()));
-    }
-
-    @Override
-    public RoleName supportedRole() {
-        return RoleName.USER;
-    }
 }

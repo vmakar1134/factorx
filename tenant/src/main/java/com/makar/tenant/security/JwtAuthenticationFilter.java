@@ -20,6 +20,8 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    private static final String TENANT_NAME_PARAM = "X-Tenant-Id";
+
     private final JwtService jwtService;
 
     private final PrincipalLookupResolver principalLookupResolver;
@@ -27,8 +29,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain) throws IOException, ServletException {
         var authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            chain.doFilter(request, response);
+        if (!isAuthorizationHeader(authHeader) && !hasTenantHeader(request) && !hasTenantRequestParam(request)) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("Missing tenant header or tenant parameter");
             return;
         }
 
@@ -44,6 +47,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
         chain.doFilter(request, response);
+    }
+
+    private boolean hasTenantRequestParam(HttpServletRequest request) {
+        return isNotBlank(request.getParameter(TENANT_NAME_PARAM));
+    }
+
+    private boolean hasTenantHeader(HttpServletRequest request) {
+        return isNotBlank(request.getHeader(TENANT_NAME_PARAM));
+    }
+
+    private boolean isAuthorizationHeader(String authHeader) {
+        return isNotBlank(authHeader) && authHeader.startsWith("Bearer ");
     }
 
 }
