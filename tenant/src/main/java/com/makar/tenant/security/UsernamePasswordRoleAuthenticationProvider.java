@@ -26,7 +26,8 @@ public class UsernamePasswordRoleAuthenticationProvider extends AbstractUserDeta
             throw new BadCredentialsException(this.messages
                     .getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
         }
-        String presentedPassword = authentication.getCredentials().toString();
+
+        var presentedPassword = authentication.getCredentials().toString();
         if (!this.passwordEncoder.matches(presentedPassword, userDetails.getPassword())) {
             this.logger.debug("Failed to authenticate since password does not match stored value");
             throw new BadCredentialsException(this.messages

@@ -46,9 +46,9 @@ public class AdminController implements AdminApi {
     }
 
     @Override
-    public ResponseEntity<Void> login(LoginAdminRequest request) {
-        adminAuthService.login(request);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> login(LoginAdminRequest request) {
+        var jwt = adminAuthService.login(request);
+        return ResponseEntity.ok(jwt);
     }
 
     @Override

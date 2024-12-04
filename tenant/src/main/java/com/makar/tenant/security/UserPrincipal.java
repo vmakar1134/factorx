@@ -1,6 +1,6 @@
 package com.makar.tenant.security;
 
-import lombok.Setter;
+import lombok.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,16 +8,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@Setter
+@Value
 public class UserPrincipal implements UserDetails {
 
-    private String username;
+    Credentials credentials;
 
-    private String password;
-
-    private RoleName role;
-
-    private String tenantName;
+    RoleName role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -26,19 +22,16 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password;
+        return credentials.password();
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return credentials.username();
     }
 
     public RoleName getRole() {
         return role;
     }
 
-    public String getTenantName() {
-        return tenantName;
-    }
 }

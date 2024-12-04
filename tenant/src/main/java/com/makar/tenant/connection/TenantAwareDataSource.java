@@ -1,6 +1,6 @@
 package com.makar.tenant.connection;
 
-import com.makar.tenant.security.TokenIdentifierResolver;
+import com.makar.tenant.tenantcontext.TenantNameContextHolder;
 import jakarta.annotation.Nonnull;
 import org.springframework.jdbc.datasource.DelegatingDataSource;
 
@@ -10,28 +10,23 @@ import java.sql.SQLException;
 
 public class TenantAwareDataSource extends DelegatingDataSource {
 
-    private final TokenIdentifierResolver tokenIdentifierResolver;
-
-    public TenantAwareDataSource(DataSource targetDataSource, TokenIdentifierResolver tokenIdentifierResolver) {
+    public TenantAwareDataSource(DataSource targetDataSource) {
         super(targetDataSource);
-        this.tokenIdentifierResolver = tokenIdentifierResolver;
     }
 
     @Nonnull
     @Override
     public Connection getConnection() throws SQLException {
-        Connection connection = super.getConnection();
-        tokenIdentifierResolver.resolveTenant()
-                .ifPresent(tenantName -> setSchema(connection, tenantName));
+        var connection = super.getConnection();
+        TenantNameContextHolder.find().ifPresent(name -> setSchema(connection, name));
         return connection;
     }
 
     @Nonnull
     @Override
     public Connection getConnection(@Nonnull String username, @Nonnull String password) throws SQLException {
-        Connection connection = super.getConnection(username, password);
-        tokenIdentifierResolver.resolveTenant()
-                .ifPresent(tenantName -> setSchema(connection, tenantName));
+        var connection = super.getConnection(username, password);
+        TenantNameContextHolder.find().ifPresent(name -> setSchema(connection, name));
         return connection;
     }
 

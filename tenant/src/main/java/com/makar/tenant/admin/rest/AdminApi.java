@@ -31,7 +31,7 @@ public interface AdminApi {
     ResponseEntity<Void> deleteAdmin(@PathVariable("id") Long id);
 
     @PostMapping("/auth/login")
-    ResponseEntity<Void> login(@RequestBody LoginAdminRequest request);
+    ResponseEntity<String> login(@RequestBody LoginAdminRequest request);
 
     @PostMapping("/auth/register")
     ResponseEntity<Void> register(@RequestBody RegisterAdminRequest request);
