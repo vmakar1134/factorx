@@ -13,11 +13,17 @@ public class UserPrincipal implements UserDetails {
 
     Credentials credentials;
 
-    RoleName role;
+    PrincipalLookupTable table;
 
+    /**
+     * Currently we are returning a single authority based on the table where the {@code Principal} is stored.
+     * <p>In the future we can add more authorities based on the roles and permissions of the user.
+     *
+     * @return a collection of granted authorities
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.toString()));
+        return List.of(new SimpleGrantedAuthority(table.toString()));
     }
 
     @Override
@@ -30,8 +36,8 @@ public class UserPrincipal implements UserDetails {
         return credentials.username();
     }
 
-    public RoleName getRole() {
-        return role;
+    public PrincipalLookupTable getTable() {
+        return table;
     }
 
 }

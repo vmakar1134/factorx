@@ -4,7 +4,7 @@ package com.makar.tenant.admin.rest;
 import com.makar.tenant.admin.rest.model.AdminResponse;
 import com.makar.tenant.admin.rest.model.CreateAdminRequest;
 import com.makar.tenant.admin.rest.model.LoginAdminRequest;
-import com.makar.tenant.admin.rest.model.RegisterAdminRequest;
+import com.makar.tenant.admin.rest.model.RegistrationRequest;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("admins")
@@ -33,7 +34,10 @@ public interface AdminApi {
     @PostMapping("/auth/login")
     ResponseEntity<String> login(@RequestBody LoginAdminRequest request);
 
+    @PostMapping("/auth/logout")
+    ResponseEntity<Void> logout(@RequestHeader("Authorization") String authorizationHeader);
+
     @PostMapping("/auth/register")
-    ResponseEntity<Void> register(@RequestBody RegisterAdminRequest request);
+    ResponseEntity<Void> register(@RequestBody RegistrationRequest request);
 
 }

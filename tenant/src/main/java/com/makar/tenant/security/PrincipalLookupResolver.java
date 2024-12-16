@@ -1,24 +1,29 @@
 package com.makar.tenant.security;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
-public class PrincipalLookupResolver {
+class PrincipalLookupResolver {
 
-    private final List<PrincipalLookup> principalLookups;
+    private final Map<PrincipalLookupTable, PrincipalLookup> lookupByTable;
 
-    public UserPrincipal resolvePrincipal(String username, RoleName roleName) throws UsernameNotFoundException {
-        for (PrincipalLookup principalLookup : principalLookups) {
-            if (roleName == principalLookup.supportedRole()) {
-                return principalLookup.findByUsername(username);
-            }
+    public PrincipalLookupResolver(List<PrincipalLookup> lookupByTable) {
+        this.lookupByTable = lookupByTable.stream()
+                .collect(Collectors.toMap(PrincipalLookup::table, Function.identity()));
+    }
+
+    Optional<UserPrincipal> resolvePrincipal(String username, PrincipalLookupTable principalLookupTable) throws UsernameNotFoundException {
+        if (!lookupByTable.containsKey(principalLookupTable)) {
+            return Optional.empty();
         }
 
-        throw new UsernameNotFoundException("Could not resolve principal: %s for role: %s".formatted(username, roleName));
+        return Optional.of(lookupByTable.get(principalLookupTable).findByUsername(username));
     }
 }

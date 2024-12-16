@@ -2,7 +2,7 @@ package com.makar.tenant.user.service;
 
 import com.makar.tenant.security.Credentials;
 import com.makar.tenant.security.PrincipalLookup;
-import com.makar.tenant.security.RoleName;
+import com.makar.tenant.security.PrincipalLookupTable;
 import com.makar.tenant.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class UserPrincipalLookup implements PrincipalLookup {
     }
 
     @Override
-    public RoleName supportedRole() {
-        return RoleName.USER;
+    public PrincipalLookupTable table() {
+        return PrincipalLookupTable.USER;
     }
 }

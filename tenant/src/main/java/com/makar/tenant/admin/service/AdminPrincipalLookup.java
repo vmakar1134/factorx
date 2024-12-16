@@ -3,7 +3,7 @@ package com.makar.tenant.admin.service;
 import com.makar.tenant.admin.repository.AdminRepository;
 import com.makar.tenant.security.Credentials;
 import com.makar.tenant.security.PrincipalLookup;
-import com.makar.tenant.security.RoleName;
+import com.makar.tenant.security.PrincipalLookupTable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class AdminPrincipalLookup implements PrincipalLookup {
     }
 
     @Override
-    public RoleName supportedRole() {
-        return RoleName.ADMIN;
+    public PrincipalLookupTable table() {
+        return PrincipalLookupTable.ADMIN;
     }
 }

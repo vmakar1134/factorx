@@ -3,5 +3,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/factorx_dev
     username: factorx_dev
     password: factorx_dev
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
 server:
   port: 8083

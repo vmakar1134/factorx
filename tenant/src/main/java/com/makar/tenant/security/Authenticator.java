@@ -6,11 +6,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.function.Function;
+
 @Service
 @RequiredArgsConstructor
 public class Authenticator {
 
     private final JwtService jwtService;
+
+    private final AuthBlacklist authBlacklist;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -21,8 +25,13 @@ public class Authenticator {
         return jwtService.generateToken(principal);
     }
 
-    public String encodePassword(String password) {
-        return passwordEncoder.encode(password);
+    public void logout(String jwt) {
+        authBlacklist.blacklist(jwt, jwtService.extractExpiredAt(jwt));
+    }
+
+    public <T> T register(Credentials credentials, Function<Credentials, T> registrationCallback) {
+        var updatedCredentials = new Credentials(credentials.username(), passwordEncoder.encode(credentials.password()));
+        return registrationCallback.apply(updatedCredentials);
     }
 
 }
