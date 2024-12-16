@@ -38,7 +38,7 @@ public class UsernamePasswordRoleAuthenticationProvider extends AbstractUserDeta
     @Override
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         return Optional.ofNullable((UserPrincipal) authentication.getPrincipal())
-                .flatMap(principal -> principalLookupResolver.resolvePrincipal(principal.getUsername(), principal.getRole()))
+                .flatMap(principal -> principalLookupResolver.resolvePrincipal(principal.getUsername(), principal.getTable()))
                 .orElseThrow(() -> new UserPrincipalAuthenticationException("Cannot authenticate. Principal not found"));
     }
 }

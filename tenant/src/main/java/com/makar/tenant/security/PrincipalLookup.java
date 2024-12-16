@@ -8,12 +8,12 @@ public interface PrincipalLookup {
 
     Optional<Credentials> findCredentials(String username);
 
-    RoleName supportedRole();
+    PrincipalLookupTable table();
 
     default UserPrincipal findByUsername(String username) throws UsernameNotFoundException {
         var credentials = findCredentials(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found by username: " + username));
 
-        return new UserPrincipal(credentials, supportedRole());
+        return new UserPrincipal(credentials, table());
     }
 }

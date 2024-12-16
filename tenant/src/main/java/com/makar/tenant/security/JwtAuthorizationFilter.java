@@ -44,9 +44,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private Optional<UserPrincipal> resolvePrincipal(String jwt) {
         var username = jwtService.extractUsername(jwt);
-        var role = jwtService.extractRole(jwt);
-        if (isNotBlank(username) && nonNull(role)) {
-            return principalLookupResolver.resolvePrincipal(username, role);
+        var table = jwtService.extractTable(jwt);
+        if (isNotBlank(username) && nonNull(table)) {
+            return principalLookupResolver.resolvePrincipal(username, table);
         }
         return Optional.empty();
     }
