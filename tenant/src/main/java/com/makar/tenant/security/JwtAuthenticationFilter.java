@@ -71,7 +71,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private void sendErrorResponse(HttpServletResponse response) {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         try {
-            response.getWriter().write("Missing tenant header or tenant parameter");
+            response.getWriter().write("Missing tenant header or tenant parameter: " + TENANT_NAME_PARAM);
         } catch (IOException e) {
             log.error("Error writing response", e);
         }
