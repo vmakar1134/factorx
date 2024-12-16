@@ -4,7 +4,7 @@ package com.makar.tenant.admin.rest;
 import com.makar.tenant.admin.rest.model.AdminResponse;
 import com.makar.tenant.admin.rest.model.CreateAdminRequest;
 import com.makar.tenant.admin.rest.model.LoginAdminRequest;
-import com.makar.tenant.security.RegistrationRequest;
+import com.makar.tenant.admin.rest.model.RegistrationRequest;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.makar.tenant.security;
+package com.makar.tenant.admin.rest.model;
 
 public record RegistrationRequest(
         String email,

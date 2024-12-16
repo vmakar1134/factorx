@@ -5,7 +5,7 @@ import com.makar.tenant.admin.repository.AdminRepository;
 import com.makar.tenant.admin.rest.model.LoginAdminRequest;
 import com.makar.tenant.security.Authenticator;
 import com.makar.tenant.security.Credentials;
-import com.makar.tenant.security.RegistrationRequest;
+import com.makar.tenant.admin.rest.model.RegistrationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

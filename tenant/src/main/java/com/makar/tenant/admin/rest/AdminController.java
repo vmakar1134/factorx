@@ -6,7 +6,7 @@ import com.makar.tenant.admin.rest.model.CreateAdminRequest;
 import com.makar.tenant.admin.rest.model.LoginAdminRequest;
 import com.makar.tenant.admin.service.AdminAuthService;
 import com.makar.tenant.admin.service.AdminService;
-import com.makar.tenant.security.RegistrationRequest;
+import com.makar.tenant.admin.rest.model.RegistrationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
