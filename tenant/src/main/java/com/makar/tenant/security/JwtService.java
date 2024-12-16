@@ -13,12 +13,19 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-class JwtService {
+public class JwtService {
 
     private static final String SECRET_STRING = "your-secret-key-256-bytes-long-your-secret-key-256-bytes-long";
     private static final Key SECRET_KEY = Keys.hmacShaKeyFor(SECRET_STRING.getBytes());
     private static final String ROLE_CLAIM = "role";
     private static final String TENANT_NAME_CLAIM = "tenant";
+
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final int BEARER_LENGTH = 7;
+
+    public String extractTenantName(String token) {
+        return extractClaim(token, claims -> claims.get(TENANT_NAME_CLAIM, String.class));
+    }
 
     String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -27,10 +34,6 @@ class JwtService {
     RoleName extractRole(String token) {
         var roleName = extractClaim(token, claims -> claims.get(ROLE_CLAIM, String.class));
         return RoleName.valueOf(roleName);
-    }
-
-    String extractTenantName(String token) {
-        return extractClaim(token, claims -> claims.get(TENANT_NAME_CLAIM, String.class));
     }
 
     Instant extractExpiredAt(String token) {

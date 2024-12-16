@@ -1,6 +1,6 @@
-package com.makar.tenant.security;
+package com.makar.tenant.context;
 
-import com.makar.tenant.context.TenantNameContextHolder;
+import com.makar.tenant.security.JwtService;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,14 +14,15 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Optional;
 
+import static com.makar.tenant.security.JwtService.AUTHORIZATION_HEADER;
+import static com.makar.tenant.security.JwtService.BEARER_LENGTH;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class TenantNameFilter extends OncePerRequestFilter {
 
     private static final String TENANT_NAME_PARAM = "X-Tenant-Id";
-    private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final int BEARER_LENGTH = 7;
 
     private final JwtService jwtService;
 

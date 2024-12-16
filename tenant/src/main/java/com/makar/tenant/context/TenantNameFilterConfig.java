@@ -1,11 +1,11 @@
-package com.makar.tenant.security;
+package com.makar.tenant.context;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class FilterConfig {
+public class TenantNameFilterConfig {
 
     @Bean
     public FilterRegistrationBean<TenantNameFilter> yourCustomFilterRegistration(TenantNameFilter filter) {

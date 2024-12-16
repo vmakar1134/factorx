@@ -15,6 +15,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Optional;
 
+import static com.makar.tenant.security.JwtService.AUTHORIZATION_HEADER;
+import static com.makar.tenant.security.JwtService.BEARER_LENGTH;
 import static java.util.Objects.nonNull;
 import static java.util.function.Predicate.not;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
@@ -23,9 +25,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
-
-    private static final String AUTHORIZATION_HEADER = "Authorization";
-    private static final int BEARER_LENGTH = 7;
 
     private final JwtService jwtService;
 
