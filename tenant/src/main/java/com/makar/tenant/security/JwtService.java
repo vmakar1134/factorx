@@ -37,28 +37,25 @@ class JwtService {
         return extractClaim(token, Claims::getExpiration).toInstant();
     }
 
-    <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
     String generateToken(UserPrincipal userDetails) {
         var tenantName = TenantNameContextHolder.find().orElseThrow();
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 100 * 60 * 5 )) // 5 minutes
+                .setExpiration(new Date(System.currentTimeMillis() + 100 * 60 * 5)) // 5 minutes
                 .addClaims(Map.of(ROLE_CLAIM, userDetails.getRole(), TENANT_NAME_CLAIM, tenantName))
                 .signWith(SECRET_KEY)
                 .compact();
     }
 
-    private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        var claims = Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+
+        return claimsResolver.apply(claims);
     }
 
 }
