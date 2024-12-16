@@ -1,41 +1,40 @@
 package com.makar.tenant.connection;
 
-import com.makar.tenant.service.TokenIdentifierResolver;
+import com.makar.tenant.tenantcontext.TenantNameContextHolder;
 import jakarta.annotation.Nonnull;
+import org.springframework.jdbc.datasource.DelegatingDataSource;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import javax.sql.DataSource;
-import org.springframework.jdbc.datasource.DelegatingDataSource;
 
 public class TenantAwareDataSource extends DelegatingDataSource {
 
-    private final TokenIdentifierResolver tokenIdentifierResolver;
-
-    public TenantAwareDataSource(DataSource targetDataSource, TokenIdentifierResolver tokenIdentifierResolver) {
+    public TenantAwareDataSource(DataSource targetDataSource) {
         super(targetDataSource);
-        this.tokenIdentifierResolver = tokenIdentifierResolver;
     }
 
     @Nonnull
     @Override
     public Connection getConnection() throws SQLException {
-        Connection connection = super.getConnection();
-        setSchema(connection);
+        var connection = super.getConnection();
+        TenantNameContextHolder.find().ifPresent(name -> setSchema(connection, name));
         return connection;
     }
 
     @Nonnull
     @Override
     public Connection getConnection(@Nonnull String username, @Nonnull String password) throws SQLException {
-        Connection connection = super.getConnection(username, password);
-        setSchema(connection);
+        var connection = super.getConnection(username, password);
+        TenantNameContextHolder.find().ifPresent(name -> setSchema(connection, name));
         return connection;
     }
 
-    private void setSchema(Connection connection) throws SQLException {
-        String tenantId = tokenIdentifierResolver.resolveTenant();
-        if (tenantId != null) {
-            connection.setSchema(tenantId);
+    private void setSchema(Connection connection, String tenantName) {
+        try {
+            connection.setSchema(tenantName);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

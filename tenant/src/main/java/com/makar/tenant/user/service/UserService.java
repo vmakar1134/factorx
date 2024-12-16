@@ -6,9 +6,10 @@ import com.makar.tenant.user.mapper.UserMapper;
 import com.makar.tenant.user.repository.UserRepository;
 import com.makar.tenant.user.rest.model.CreateUserRequest;
 import com.makar.tenant.user.rest.model.UserResponse;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +26,8 @@ public class UserService {
 
     public List<UserResponse> get() {
         return userRepository.findAll().stream()
-            .map(userMapper::toResponse)
-            .toList();
+                .map(userMapper::toResponse)
+                .toList();
     }
 
     public void create(CreateUserRequest request) {
@@ -40,6 +41,7 @@ public class UserService {
 
     private User getById(Long id) {
         return userRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(User.class, "id", id));
+                .orElseThrow(() -> new EntityNotFoundException(User.class, "id", id));
     }
+
 }

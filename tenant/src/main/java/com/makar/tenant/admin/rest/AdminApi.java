@@ -3,6 +3,9 @@ package com.makar.tenant.admin.rest;
 
 import com.makar.tenant.admin.rest.model.AdminResponse;
 import com.makar.tenant.admin.rest.model.CreateAdminRequest;
+import com.makar.tenant.admin.rest.model.LoginAdminRequest;
+import com.makar.tenant.admin.rest.model.RegisterAdminRequest;
+
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,5 +29,11 @@ public interface AdminApi {
 
     @DeleteMapping("{id}")
     ResponseEntity<Void> deleteAdmin(@PathVariable("id") Long id);
+
+    @PostMapping("/auth/login")
+    ResponseEntity<String> login(@RequestBody LoginAdminRequest request);
+
+    @PostMapping("/auth/register")
+    ResponseEntity<Void> register(@RequestBody RegisterAdminRequest request);
 
 }
