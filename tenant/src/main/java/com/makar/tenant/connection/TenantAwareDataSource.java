@@ -1,6 +1,6 @@
 package com.makar.tenant.connection;
 
-import com.makar.tenant.tenantcontext.TenantNameContextHolder;
+import com.makar.tenant.context.TenantNameContextHolder;
 import jakarta.annotation.Nonnull;
 import org.springframework.jdbc.datasource.DelegatingDataSource;
 

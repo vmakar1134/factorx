@@ -1,6 +1,6 @@
 package com.makar.tenant.config;
 
-import com.makar.tenant.security.JwtAuthenticationFilter;
+import com.makar.tenant.security.JwtAuthorizationFilter;
 import com.makar.tenant.security.UsernamePasswordRoleAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,18 +22,18 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http,
-                                            JwtAuthenticationFilter jwtAuthenticationFilter,
+                                            JwtAuthorizationFilter jwtAuthorizationFilter,
                                             UsernamePasswordRoleAuthenticationProvider authenticationProvider) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admins/auth/**", "/users/auth/**").permitAll()
+                        .requestMatchers("/admins/auth/login", "/users/auth/login").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(HttpBasicConfigurer::disable)
                 .anonymous(AbstractHttpConfigurer::disable)
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

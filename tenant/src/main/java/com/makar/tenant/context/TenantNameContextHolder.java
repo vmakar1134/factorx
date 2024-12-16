@@ -1,4 +1,4 @@
-package com.makar.tenant.tenantcontext;
+package com.makar.tenant.context;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

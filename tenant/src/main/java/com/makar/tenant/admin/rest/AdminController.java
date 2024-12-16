@@ -4,9 +4,9 @@ package com.makar.tenant.admin.rest;
 import com.makar.tenant.admin.rest.model.AdminResponse;
 import com.makar.tenant.admin.rest.model.CreateAdminRequest;
 import com.makar.tenant.admin.rest.model.LoginAdminRequest;
-import com.makar.tenant.admin.rest.model.RegisterAdminRequest;
 import com.makar.tenant.admin.service.AdminAuthService;
 import com.makar.tenant.admin.service.AdminService;
+import com.makar.tenant.security.RegistrationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,7 +52,13 @@ public class AdminController implements AdminApi {
     }
 
     @Override
-    public ResponseEntity<Void> register(RegisterAdminRequest request) {
+    public ResponseEntity<Void> logout(String authorizationHeader) {
+        adminAuthService.logout(authorizationHeader.substring("Bearer ".length()));
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> register(RegistrationRequest request) {
         adminAuthService.register(request);
         return ResponseEntity.noContent().build();
     }

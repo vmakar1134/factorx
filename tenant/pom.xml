@@ -10,11 +10,20 @@
     <artifactId>tenant</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>tenant</name>
+    <properties>
+        <lettuce-core.version>6.5.0.RELEASE</lettuce-core.version>
+        <jedis.version>5.2.0</jedis.version>
+        <commons-codec.version>1.17.1</commons-codec.version>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -42,6 +51,12 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
         </dependency>
 
         <dependency>
@@ -75,6 +90,11 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.5</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons-codec.version}</version>
         </dependency>
 
         <dependency>
