@@ -37,6 +37,9 @@ public interface AdminApi {
     @PostMapping("/auth/logout")
     ResponseEntity<Void> logout(@RequestHeader("Authorization") String authorizationHeader);
 
+    @PostMapping("/auth/logout/me")
+    ResponseEntity<Void> logoutMe();
+
     @PostMapping("/auth/register")
     ResponseEntity<Void> register(@RequestBody RegistrationRequest request);
 

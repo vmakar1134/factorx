@@ -11,6 +11,8 @@ import java.util.List;
 @Value
 public class UserPrincipal implements UserDetails {
 
+    Long id;
+
     Credentials credentials;
 
     PrincipalLookupTable table;
@@ -34,6 +36,10 @@ public class UserPrincipal implements UserDetails {
     @Override
     public String getUsername() {
         return credentials.username();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public PrincipalLookupTable getTable() {

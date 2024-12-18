@@ -14,7 +14,7 @@ public class Authenticator {
 
     private final JwtService jwtService;
 
-    private final AuthBlacklist authBlacklist;
+    private final LoginBlacklist loginBlacklist;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -26,7 +26,11 @@ public class Authenticator {
     }
 
     public void logout(String jwt) {
-        authBlacklist.blacklist(jwt, jwtService.extractExpiredAt(jwt));
+        loginBlacklist.add(jwt, jwtService.extractExpiredAt(jwt));
+    }
+
+    public void logout(UserPrincipal principal) {
+        loginBlacklist.add(principal);
     }
 
     public <T> T register(Credentials credentials, Function<Credentials, T> registrationCallback) {

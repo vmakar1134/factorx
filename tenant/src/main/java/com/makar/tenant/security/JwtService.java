@@ -27,8 +27,8 @@ public class JwtService {
         return extractClaim(token, claims -> claims.get(TENANT_NAME_CLAIM, String.class));
     }
 
-    String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+    Long extractId(String token) {
+        return extractClaim(token, claims -> Long.valueOf(claims.getSubject()));
     }
 
     PrincipalLookupTable extractTable(String token) {
@@ -40,12 +40,16 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration).toInstant();
     }
 
+    Instant extractIssuedAt(String token) {
+        return extractClaim(token, Claims::getIssuedAt).toInstant();
+    }
+
     String generateToken(UserPrincipal userDetails) {
         var tenantName = TenantNameContextHolder.find().orElseThrow();
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
+                .setSubject(userDetails.getId().toString())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 100 * 60 * 5)) // 5 minutes
+                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 5)) // 5 minutes
                 .addClaims(Map.of(TABLE_CLAIM, userDetails.getTable(), TENANT_NAME_CLAIM, tenantName))
                 .signWith(SECRET_KEY)
                 .compact();

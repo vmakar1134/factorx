@@ -58,6 +58,12 @@ public class AdminController implements AdminApi {
     }
 
     @Override
+    public ResponseEntity<Void> logoutMe() {
+        adminAuthService.logout();
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
     public ResponseEntity<Void> register(RegistrationRequest request) {
         adminAuthService.register(request);
         return ResponseEntity.noContent().build();
