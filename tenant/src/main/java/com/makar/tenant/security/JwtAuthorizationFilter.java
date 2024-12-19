@@ -53,12 +53,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
 
         var blacklistAt = loginBlacklist.get(principal);
-        return jwtService.extractIssuedAt(jwt).isBefore(blacklistAt);
+        return jwtService.parseAccessJwt(jwt).issuedAt().isBefore(blacklistAt);
     }
 
     private Optional<UserPrincipal> resolvePrincipal(String jwt) {
-        var id = jwtService.extractId(jwt);
-        var table = jwtService.extractTable(jwt);
+        var jwtDetails = jwtService.parseAccessJwt(jwt);
+        var id = jwtDetails.userId();
+        var table = jwtDetails.table();
         return principalLookupResolver.resolvePrincipal(id, table);
     }
 

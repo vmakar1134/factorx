@@ -7,6 +7,7 @@ import com.makar.tenant.admin.rest.model.RegistrationRequest;
 import com.makar.tenant.security.Authenticator;
 import com.makar.tenant.security.Credentials;
 import com.makar.tenant.security.IdentityProvider;
+import com.makar.tenant.security.JwtTokenPair;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,9 +33,13 @@ public class AdminAuthService {
         return new Admin(null, credentials.username(), null, null, credentials.password());
     }
 
-    public String login(LoginAdminRequest request) {
+    public JwtTokenPair login(LoginAdminRequest request) {
         var principal = adminPrincipalLookup.get(request.email());
         return authenticator.authenticate(principal, request.password());
+    }
+
+    public JwtTokenPair refresh(String refreshToken) {
+        return authenticator.refresh(refreshToken);
     }
 
     public void logout(String jwt) {
@@ -47,5 +52,4 @@ public class AdminAuthService {
                     throw new IllegalArgumentException("Principal not found");
                 });
     }
-
 }

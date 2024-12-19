@@ -20,13 +20,17 @@ public class Authenticator {
 
     private final AuthenticationManager authenticationManager;
 
-    public String authenticate(UserPrincipal principal, String password) {
+    public JwtTokenPair authenticate(UserPrincipal principal, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(principal, password));
-        return jwtService.generateToken(principal);
+        return jwtService.generateTokens(principal);
+    }
+
+    public JwtTokenPair refresh(String refreshToken) {
+        return jwtService.refresh(refreshToken);
     }
 
     public void logout(String jwt) {
-        loginBlacklist.add(jwt, jwtService.extractExpiredAt(jwt));
+        loginBlacklist.add(jwt, jwtService.parseAccessJwt(jwt).expiredAt());
     }
 
     public void logout(UserPrincipal principal) {
@@ -37,5 +41,4 @@ public class Authenticator {
         var updatedCredentials = new Credentials(credentials.username(), passwordEncoder.encode(credentials.password()));
         return registrationCallback.apply(updatedCredentials);
     }
-
 }
