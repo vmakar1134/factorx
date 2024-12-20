@@ -8,9 +8,9 @@ import java.time.Instant;
 @Getter
 public class JwtDetails {
 
-    static final String TABLE_CLAIM = "table";
-    static final String TENANT_NAME_CLAIM = "tenant";
-    static final String TOKEN_TYPE_CLAIM = "type";
+    public static final String TABLE_CLAIM = "table";
+    public static final String TENANT_NAME_CLAIM = "tenant";
+    public static final String TOKEN_TYPE_CLAIM = "type";
 
     private final String tenantName;
     private final Long userId;
@@ -28,7 +28,7 @@ public class JwtDetails {
         this.expiredAt = claims.getExpiration().toInstant();
     }
 
-    static JwtDetails from(Claims claims) {
+    public static JwtDetails from(Claims claims) {
         return new JwtDetails(claims);
     }
 }

@@ -1,0 +1,65 @@
+databaseChangeLog:
+  - changeSet:
+      id: "1677530645638-2"
+      author: "vmakar"
+      changes:
+        - createTable:
+            tableName: task
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: priority
+                  type: integer
+              - column:
+                  name: deadline
+                  type: timestamp
+              - column:
+                  name: created_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: worker_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: supervisor_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            constraintName: fk_task_worker
+            baseTableName: task
+            baseColumnNames: worker_id
+            referencedTableName: worker
+            referencedColumnNames: id
+
+        - addForeignKeyConstraint:
+            constraintName: fk_task_supervisor
+            baseTableName: task
+            baseColumnNames: supervisor_id
+            referencedTableName: supervisor
+            referencedColumnNames: id

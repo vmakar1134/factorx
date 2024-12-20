@@ -24,6 +24,10 @@ public class WorkerService {
         return userMapper.toResponse(worker);
     }
 
+    public boolean exists(Long id) {
+        return workerRepository.existsById(id);
+    }
+
     public List<WorkerResponse> get() {
         return workerRepository.findAll().stream()
                 .map(userMapper::toResponse)

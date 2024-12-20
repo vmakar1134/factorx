@@ -5,3 +5,6 @@ databaseChangeLog:
   - include:
       file: "changelog/supervisor.yml"
       relativeToChangelogFile: true
+  - include:
+      file: "changelog/task.yml"
+      relativeToChangelogFile: true
