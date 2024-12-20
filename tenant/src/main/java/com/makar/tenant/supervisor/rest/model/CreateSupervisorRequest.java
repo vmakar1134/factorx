@@ -1,7 +1,6 @@
 package com.makar.tenant.supervisor.rest.model;
 
-public record AdminResponse(
-        Long id,
+public record CreateSupervisorRequest(
         String email
 ) {
 }

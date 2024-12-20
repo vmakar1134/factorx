@@ -1,12 +1,12 @@
 package com.makar.tenant.supervisor.rest;
 
 
-import com.makar.tenant.supervisor.rest.model.AdminResponse;
-import com.makar.tenant.supervisor.rest.model.CreateAdminRequest;
-import com.makar.tenant.supervisor.rest.model.LoginAdminRequest;
+import com.makar.tenant.supervisor.rest.model.SupervisorResponse;
+import com.makar.tenant.supervisor.rest.model.CreateSupervisorRequest;
+import com.makar.tenant.supervisor.rest.model.LoginSupervisorRequest;
 import com.makar.tenant.supervisor.rest.model.RefreshRequest;
-import com.makar.tenant.supervisor.service.AdminAuthService;
-import com.makar.tenant.supervisor.service.AdminService;
+import com.makar.tenant.supervisor.service.SupervisorAuthService;
+import com.makar.tenant.supervisor.service.SupervisorService;
 import com.makar.tenant.supervisor.rest.model.RegistrationRequest;
 import com.makar.tenant.security.JwtTokenPair;
 import lombok.RequiredArgsConstructor;
@@ -17,63 +17,63 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class AdminController implements AdminApi {
+public class SupervisorController implements SupervisorApi {
 
-    private final AdminService adminService;
+    private final SupervisorService supervisorService;
 
-    private final AdminAuthService adminAuthService;
+    private final SupervisorAuthService supervisorAuthService;
 
     @Override
-    public ResponseEntity<AdminResponse> getAdmin(Long id) {
-        var body = adminService.get(id);
+    public ResponseEntity<SupervisorResponse> getAdmin(Long id) {
+        var body = supervisorService.get(id);
         return ResponseEntity.ok(body);
     }
 
     @Override
-    public ResponseEntity<List<AdminResponse>> getAdmins() {
-        var body = adminService.get();
+    public ResponseEntity<List<SupervisorResponse>> getAdmins() {
+        var body = supervisorService.get();
         return ResponseEntity.ok(body);
     }
 
     @Override
-    public ResponseEntity<Void> createAdmin(CreateAdminRequest request) {
-        adminService.create(request);
+    public ResponseEntity<Void> createAdmin(CreateSupervisorRequest request) {
+        supervisorService.create(request);
         return ResponseEntity.noContent().build();
     }
 
     @Override
     public ResponseEntity<Void> deleteAdmin(Long id) {
-        adminService.delete(id);
+        supervisorService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @Override
-    public ResponseEntity<JwtTokenPair> login(LoginAdminRequest request) {
-        var jwt = adminAuthService.login(request);
+    public ResponseEntity<JwtTokenPair> login(LoginSupervisorRequest request) {
+        var jwt = supervisorAuthService.login(request);
         return ResponseEntity.ok(jwt);
     }
 
     @Override
     public ResponseEntity<JwtTokenPair> refresh(RefreshRequest refreshRequest) {
-        var jwt = adminAuthService.refresh(refreshRequest.refreshToken());
+        var jwt = supervisorAuthService.refresh(refreshRequest.refreshToken());
         return ResponseEntity.ok(jwt);
     }
 
     @Override
     public ResponseEntity<Void> logout(String authorizationHeader) {
-        adminAuthService.logout(authorizationHeader.substring("Bearer ".length()));
+        supervisorAuthService.logout(authorizationHeader.substring("Bearer ".length()));
         return ResponseEntity.noContent().build();
     }
 
     @Override
     public ResponseEntity<Void> logoutMe() {
-        adminAuthService.logout();
+        supervisorAuthService.logout();
         return ResponseEntity.noContent().build();
     }
 
     @Override
     public ResponseEntity<Void> register(RegistrationRequest request) {
-        adminAuthService.register(request);
+        supervisorAuthService.register(request);
         return ResponseEntity.noContent().build();
     }
 }

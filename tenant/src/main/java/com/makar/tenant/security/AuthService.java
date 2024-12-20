@@ -1,6 +1,6 @@
 package com.makar.tenant.security;
 
-import com.makar.tenant.supervisor.rest.model.LoginAdminRequest;
+import com.makar.tenant.supervisor.rest.model.LoginSupervisorRequest;
 import com.makar.tenant.supervisor.rest.model.RegistrationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +19,7 @@ public abstract class AuthService {
         saveEntity(credentials);
     }
 
-    public JwtTokenPair login(LoginAdminRequest request) {
+    public JwtTokenPair login(LoginSupervisorRequest request) {
         var principal = principalLookup.get(request.email());
         return authenticator.authenticate(principal, request.password());
     }

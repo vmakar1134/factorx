@@ -1,9 +1,9 @@
 package com.makar.tenant.supervisor.rest;
 
 
-import com.makar.tenant.supervisor.rest.model.AdminResponse;
-import com.makar.tenant.supervisor.rest.model.CreateAdminRequest;
-import com.makar.tenant.supervisor.rest.model.LoginAdminRequest;
+import com.makar.tenant.supervisor.rest.model.CreateSupervisorRequest;
+import com.makar.tenant.supervisor.rest.model.SupervisorResponse;
+import com.makar.tenant.supervisor.rest.model.LoginSupervisorRequest;
 import com.makar.tenant.supervisor.rest.model.RefreshRequest;
 import com.makar.tenant.supervisor.rest.model.RegistrationRequest;
 import com.makar.tenant.security.JwtTokenPair;
@@ -19,22 +19,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @RequestMapping("admins")
-public interface AdminApi {
+public interface SupervisorApi {
 
     @GetMapping("{id}")
-    ResponseEntity<AdminResponse> getAdmin(@PathVariable("id") Long id);
+    ResponseEntity<SupervisorResponse> getAdmin(@PathVariable("id") Long id);
 
     @GetMapping
-    ResponseEntity<List<AdminResponse>> getAdmins();
+    ResponseEntity<List<SupervisorResponse>> getAdmins();
 
     @PostMapping
-    ResponseEntity<Void> createAdmin(@RequestBody CreateAdminRequest request);
+    ResponseEntity<Void> createAdmin(@RequestBody CreateSupervisorRequest request);
 
     @DeleteMapping("{id}")
     ResponseEntity<Void> deleteAdmin(@PathVariable("id") Long id);
 
     @PostMapping("/auth/login")
-    ResponseEntity<JwtTokenPair> login(@RequestBody LoginAdminRequest request);
+    ResponseEntity<JwtTokenPair> login(@RequestBody LoginSupervisorRequest request);
 
     @PostMapping("/auth/refresh")
     ResponseEntity<JwtTokenPair> refresh(@RequestBody RefreshRequest request);

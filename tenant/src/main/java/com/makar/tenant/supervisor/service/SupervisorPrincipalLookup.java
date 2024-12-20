@@ -1,11 +1,11 @@
-package com.makar.tenant.worker.service;
+package com.makar.tenant.supervisor.service;
 
+import com.makar.tenant.supervisor.Supervisor;
+import com.makar.tenant.supervisor.SupervisorRepository;
 import com.makar.tenant.security.Credentials;
 import com.makar.tenant.security.PrincipalLookup;
 import com.makar.tenant.security.PrincipalLookupTable;
 import com.makar.tenant.security.UserPrincipal;
-import com.makar.tenant.worker.Worker;
-import com.makar.tenant.worker.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,28 +13,28 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserPrincipalLookup implements PrincipalLookup {
+public class SupervisorPrincipalLookup implements PrincipalLookup {
 
-    private final UserRepository userRepository;
+    private final SupervisorRepository supervisorRepository;
 
     @Override
     public Optional<UserPrincipal> find(Long id) {
-        return userRepository.findById(id)
+        return supervisorRepository.findById(id)
                 .map(this::buildPrincipal);
     }
 
     @Override
     public Optional<UserPrincipal> find(String username) {
-        return userRepository.findByUsername(username)
+        return supervisorRepository.findByEmail(username)
                 .map(this::buildPrincipal);
     }
 
-    private UserPrincipal buildPrincipal(Worker worker) {
-        return new UserPrincipal(worker.id(), Credentials.from(worker.username(), worker.password()), lookupTable());
+    private UserPrincipal buildPrincipal(Supervisor supervisor) {
+        return new UserPrincipal(supervisor.id(), Credentials.from(supervisor.email(), supervisor.password()), lookupTable());
     }
 
     @Override
     public PrincipalLookupTable lookupTable() {
-        return PrincipalLookupTable.USER;
+        return PrincipalLookupTable.ADMIN;
     }
 }
