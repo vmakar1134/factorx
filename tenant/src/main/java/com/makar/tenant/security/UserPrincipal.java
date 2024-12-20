@@ -1,6 +1,8 @@
 package com.makar.tenant.security;
 
-import lombok.Value;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,8 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@Value
-public class UserPrincipal implements UserDetails {
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class UserPrincipal implements UserDetails {
 
     Long id;
 

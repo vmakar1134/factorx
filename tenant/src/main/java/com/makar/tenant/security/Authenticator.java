@@ -6,8 +6,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.function.Function;
-
 @Service
 @RequiredArgsConstructor
 public class Authenticator {
@@ -37,8 +35,7 @@ public class Authenticator {
         loginBlacklist.add(principal);
     }
 
-    public <T> T register(Credentials credentials, Function<Credentials, T> registrationCallback) {
-        var updatedCredentials = new Credentials(credentials.username(), passwordEncoder.encode(credentials.password()));
-        return registrationCallback.apply(updatedCredentials);
+    public Credentials register(String username, String password) {
+        return new Credentials(username, passwordEncoder.encode(password));
     }
 }

@@ -45,7 +45,7 @@ class LoginBlacklist {
     }
 
     private String idKey(UserPrincipal principal) {
-        return "%s:%s".formatted(principal.id(), principal.table());
+        return "%s:%s".formatted(principal.getId(), principal.getTable());
     }
 
     private String hashToken(String jwt) {

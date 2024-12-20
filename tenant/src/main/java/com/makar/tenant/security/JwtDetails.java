@@ -28,7 +28,7 @@ public class JwtDetails {
         this.expiredAt = claims.getExpiration().toInstant();
     }
 
-    public static JwtDetails from(Claims claims) {
+    static JwtDetails from(Claims claims) {
         return new JwtDetails(claims);
     }
 }
