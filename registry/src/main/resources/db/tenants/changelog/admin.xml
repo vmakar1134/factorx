@@ -7,7 +7,7 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
 
     <changeSet author="vmakar" id="1677530645638-1">
-        <createTable tableName="admin">
+        <createTable tableName="supervisor">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_admin"/>
             </column>
@@ -16,7 +16,7 @@
             <column name="otp" type="text"/>
             <column name="otp_created_at" type="timestamp"/>
         </createTable>
-        <addUniqueConstraint columnNames="email" constraintName="uc_admin_email" tableName="admin"/>
+        <addUniqueConstraint columnNames="email" constraintName="uc_admin_email" tableName="supervisor"/>
     </changeSet>
 
 </databaseChangeLog>

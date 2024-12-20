@@ -1,7 +1,7 @@
 package com.makar.tenant.security;
 
-import com.makar.tenant.admin.rest.model.LoginAdminRequest;
-import com.makar.tenant.admin.rest.model.RegistrationRequest;
+import com.makar.tenant.supervisor.rest.model.LoginAdminRequest;
+import com.makar.tenant.supervisor.rest.model.RegistrationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 

@@ -13,8 +13,8 @@ The application is composed of several modules that work together to provide the
 ## Features
 The application includes the following features:
 
-- User management: Allows the super admin to manage all users across all tenants.
-- Tenant management: Allows the super admin to create, update, and delete tenants.
+- User management: Allows the super supervisor to manage all users across all tenants.
+- Tenant management: Allows the super supervisor to create, update, and delete tenants.
 - Schema creation: Allows the registry module to create new schemas for tenants.
 - Module management: Allows tenants to manage the modules that belong to them.
 - RabbitMQ: Uses an event-driven approach with RabbitMQ to allow modules to communicate without direct coupling.
