@@ -35,6 +35,6 @@ public class SupervisorPrincipalLookup implements PrincipalLookup {
 
     @Override
     public PrincipalLookupTable lookupTable() {
-        return PrincipalLookupTable.ADMIN;
+        return PrincipalLookupTable.SUPERVISOR;
     }
 }
