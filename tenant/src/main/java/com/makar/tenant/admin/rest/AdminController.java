@@ -4,9 +4,11 @@ package com.makar.tenant.admin.rest;
 import com.makar.tenant.admin.rest.model.AdminResponse;
 import com.makar.tenant.admin.rest.model.CreateAdminRequest;
 import com.makar.tenant.admin.rest.model.LoginAdminRequest;
+import com.makar.tenant.admin.rest.model.RefreshRequest;
 import com.makar.tenant.admin.service.AdminAuthService;
 import com.makar.tenant.admin.service.AdminService;
 import com.makar.tenant.admin.rest.model.RegistrationRequest;
+import com.makar.tenant.security.JwtTokenPair;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,14 +48,26 @@ public class AdminController implements AdminApi {
     }
 
     @Override
-    public ResponseEntity<String> login(LoginAdminRequest request) {
+    public ResponseEntity<JwtTokenPair> login(LoginAdminRequest request) {
         var jwt = adminAuthService.login(request);
+        return ResponseEntity.ok(jwt);
+    }
+
+    @Override
+    public ResponseEntity<JwtTokenPair> refresh(RefreshRequest refreshRequest) {
+        var jwt = adminAuthService.refresh(refreshRequest.refreshToken());
         return ResponseEntity.ok(jwt);
     }
 
     @Override
     public ResponseEntity<Void> logout(String authorizationHeader) {
         adminAuthService.logout(authorizationHeader.substring("Bearer ".length()));
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> logoutMe() {
+        adminAuthService.logout();
         return ResponseEntity.noContent().build();
     }
 

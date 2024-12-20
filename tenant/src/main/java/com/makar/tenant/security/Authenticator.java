@@ -6,32 +6,36 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.function.Function;
-
 @Service
 @RequiredArgsConstructor
 public class Authenticator {
 
     private final JwtService jwtService;
 
-    private final AuthBlacklist authBlacklist;
+    private final LoginBlacklist loginBlacklist;
 
     private final PasswordEncoder passwordEncoder;
 
     private final AuthenticationManager authenticationManager;
 
-    public String authenticate(UserPrincipal principal, String password) {
+    public JwtTokenPair authenticate(UserPrincipal principal, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(principal, password));
-        return jwtService.generateToken(principal);
+        return jwtService.generateTokens(principal);
+    }
+
+    public JwtTokenPair refresh(String refreshToken) {
+        return jwtService.refresh(refreshToken);
     }
 
     public void logout(String jwt) {
-        authBlacklist.blacklist(jwt, jwtService.extractExpiredAt(jwt));
+        loginBlacklist.add(jwt, jwtService.parseAccessJwt(jwt).expiredAt());
     }
 
-    public <T> T register(Credentials credentials, Function<Credentials, T> registrationCallback) {
-        var updatedCredentials = new Credentials(credentials.username(), passwordEncoder.encode(credentials.password()));
-        return registrationCallback.apply(updatedCredentials);
+    public void logout(UserPrincipal principal) {
+        loginBlacklist.add(principal);
     }
 
+    public Credentials register(String username, String password) {
+        return new Credentials(username, passwordEncoder.encode(password));
+    }
 }

@@ -40,7 +40,7 @@ public class TenantNameFilter extends OncePerRequestFilter {
 
     private Optional<String> extractTenantName(HttpServletRequest request) {
         return extractJwt(request)
-                .map(jwtService::extractTenantName)
+                .map(jwt -> jwtService.parseAccessJwt(jwt).tenantName())
                 .or(() -> Optional.ofNullable(request.getHeader(TENANT_NAME_PARAM)))
                 .or(() -> Optional.ofNullable(request.getParameter(TENANT_NAME_PARAM)));
     }

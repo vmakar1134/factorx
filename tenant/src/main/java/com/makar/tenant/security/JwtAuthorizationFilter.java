@@ -17,9 +17,6 @@ import java.util.Optional;
 
 import static com.makar.tenant.security.JwtService.AUTHORIZATION_HEADER;
 import static com.makar.tenant.security.JwtService.BEARER_LENGTH;
-import static java.util.Objects.nonNull;
-import static java.util.function.Predicate.not;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Slf4j
 @Component
@@ -28,37 +25,47 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
 
-    private final AuthBlacklist authBlacklist;
+    private final LoginBlacklist loginBlacklist;
 
     private final PrincipalLookupResolver principalLookupResolver;
 
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain) throws IOException, ServletException {
         extractJwt(request)
-                .filter(not(authBlacklist::isBlacklisted))
-                .flatMap(this::resolvePrincipal)
+                .flatMap(jwt -> resolvePrincipal(jwt)
+                        .filter(principal -> !isBlacklisted(principal, jwt)))
                 .ifPresent(this::authenticate);
 
         chain.doFilter(request, response);
     }
 
-    private Optional<UserPrincipal> resolvePrincipal(String jwt) {
-        var username = jwtService.extractUsername(jwt);
-        var table = jwtService.extractTable(jwt);
-        if (isNotBlank(username) && nonNull(table)) {
-            return principalLookupResolver.resolvePrincipal(username, table);
+    private Optional<String> extractJwt(HttpServletRequest request) {
+        return Optional.ofNullable(request.getHeader(AUTHORIZATION_HEADER))
+                .map(header -> header.substring(BEARER_LENGTH));
+    }
+
+    private boolean isBlacklisted(UserPrincipal principal, String jwt) {
+        if (loginBlacklist.isPresent(jwt)) {
+            return true;
         }
-        return Optional.empty();
+        if (!loginBlacklist.isPresent(principal)) {
+            return false;
+        }
+
+        var blacklistAt = loginBlacklist.get(principal);
+        return jwtService.parseAccessJwt(jwt).issuedAt().isBefore(blacklistAt);
+    }
+
+    private Optional<UserPrincipal> resolvePrincipal(String jwt) {
+        var jwtDetails = jwtService.parseAccessJwt(jwt);
+        var id = jwtDetails.userId();
+        var table = jwtDetails.table();
+        return principalLookupResolver.resolvePrincipal(id, table);
     }
 
     private void authenticate(UserPrincipal userPrincipal) {
         var authentication = UsernamePasswordAuthenticationToken.authenticated(userPrincipal, null, userPrincipal.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
-
-    private Optional<String> extractJwt(HttpServletRequest request) {
-        return Optional.ofNullable(request.getHeader(AUTHORIZATION_HEADER))
-                .map(header -> header.substring(BEARER_LENGTH));
     }
 
 }
