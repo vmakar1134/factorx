@@ -1,7 +1,7 @@
 package com.makar.tenant.task;
 
-import com.makar.tenant.broker.Publisher;
-import com.makar.tenant.broker.Topics;
+import com.makar.tenant.pubsub.Publisher;
+import com.makar.tenant.pubsub.Topics;
 import com.makar.tenant.exception.EntityNotFoundException;
 import com.makar.tenant.task.rest.model.TaskRequest;
 import com.makar.tenant.task.rest.model.TaskResponse;

@@ -1,4 +1,4 @@
-package com.makar.tenant.broker;
+package com.makar.tenant.pubsub;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

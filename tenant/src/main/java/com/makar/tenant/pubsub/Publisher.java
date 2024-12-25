@@ -1,4 +1,4 @@
-package com.makar.tenant.broker;
+package com.makar.tenant.pubsub;
 
 import org.springframework.data.redis.listener.ChannelTopic;
 

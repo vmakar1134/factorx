@@ -1,6 +1,6 @@
 package com.makar.tenant.task;
 
-import com.makar.tenant.broker.Message;
+import com.makar.tenant.pubsub.Message;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
