@@ -27,7 +27,7 @@ public class JwtService {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final int BEARER_LENGTH = 7;
-    private static final int ACCESS_TOKEN_EXPIRATION_MILIS = 1000 * 60 * 5; // 5 minutes
+    private static final int ACCESS_TOKEN_EXPIRATION_MILIS = 1000 * 60 * 60; // 1 hour
     private static final int REFRESH_TOKEN_EXPIRATION_MILIS = 1000 * 60 * 60 * 24; // 24 hours
 
     public JwtDetails parseAccessJwt(String jwt) {

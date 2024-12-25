@@ -1,5 +1,7 @@
 package com.makar.tenant.task.rest.model;
 
+import com.makar.tenant.task.TaskStatus;
+
 import java.time.Instant;
 
 public record TaskRequest(
@@ -7,6 +9,7 @@ public record TaskRequest(
         String description,
         Long workerId,
         Instant deadline,
+        TaskStatus status,
         int priority
 ) {
 }

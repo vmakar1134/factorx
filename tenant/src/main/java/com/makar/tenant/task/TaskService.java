@@ -1,5 +1,7 @@
 package com.makar.tenant.task;
 
+import com.makar.tenant.broker.Publisher;
+import com.makar.tenant.broker.Topics;
 import com.makar.tenant.exception.EntityNotFoundException;
 import com.makar.tenant.task.rest.model.TaskRequest;
 import com.makar.tenant.task.rest.model.TaskResponse;
@@ -17,6 +19,8 @@ public class TaskService {
 
     private final TaskMapper taskMapper;
 
+    private final Publisher publisher;
+
     public TaskResponse get(Long id) {
         var task = getById(id);
         return taskMapper.toResponse(task);
@@ -29,6 +33,13 @@ public class TaskService {
 
         var task = taskMapper.toEntity(request);
         taskRepository.save(task);
+        publisher.publish(Topics.TASK_CREATED, taskMapper.toMessage(task));
+    }
+
+    public void update(Long id, TaskRequest request) {
+        var task = taskMapper.update(getById(id), request);
+        taskRepository.save(task);
+        publisher.publish(Topics.TASK_UPDATED, taskMapper.toMessage(task));
     }
 
     private Task getById(Long id) {

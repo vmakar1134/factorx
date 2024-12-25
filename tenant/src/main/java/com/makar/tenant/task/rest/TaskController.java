@@ -24,4 +24,10 @@ public class TaskController implements TaskApi {
         taskService.create(request);
         return ResponseEntity.noContent().build();
     }
+
+    @Override
+    public ResponseEntity<Void> updateTask(Long id, TaskRequest request) {
+        taskService.update(id, request);
+        return ResponseEntity.noContent().build();
+    }
 }

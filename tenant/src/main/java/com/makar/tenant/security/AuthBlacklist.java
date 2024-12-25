@@ -2,7 +2,7 @@ package com.makar.tenant.security;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -14,7 +14,7 @@ class AuthBlacklist {
 
     private static final String PLACEHOLDER = "1";
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final StringRedisTemplate redisTemplate;
 
     void blacklist(String jwt, Instant keepUntil) {
         if (!keepUntil.isAfter(Instant.now())) {
