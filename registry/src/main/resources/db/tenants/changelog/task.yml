@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
-      id: "1677530645638-2"
-      author: "vmakar"
+      id: 1677530645638-2
+      author: vmakar
       changes:
         - createTable:
             tableName: task
@@ -54,12 +54,12 @@ databaseChangeLog:
             constraintName: fk_task_worker
             baseTableName: task
             baseColumnNames: worker_id
-            referencedTableName: worker
+            referencedTableName: user
             referencedColumnNames: id
 
         - addForeignKeyConstraint:
             constraintName: fk_task_supervisor
             baseTableName: task
             baseColumnNames: supervisor_id
-            referencedTableName: supervisor
+            referencedTableName: user
             referencedColumnNames: id

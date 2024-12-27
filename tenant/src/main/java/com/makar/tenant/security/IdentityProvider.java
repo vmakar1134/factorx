@@ -9,7 +9,7 @@ public final class IdentityProvider {
 
     public static Long currentId() {
         var principal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return principal.getUserId().id();
+        return principal.getUserId();
     }
 
 }

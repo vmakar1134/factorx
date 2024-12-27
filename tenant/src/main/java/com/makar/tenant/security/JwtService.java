@@ -1,7 +1,6 @@
 package com.makar.tenant.security;
 
 import com.makar.tenant.context.TenantNameContextHolder;
-import com.makar.tenant.user.UserId;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -60,9 +59,9 @@ public class JwtService {
         return Map.of(TOKEN_TYPE_CLAIM, tokenType, TENANT_NAME_CLAIM, tenantName);
     }
 
-    private String generateJwt(UserId userId, int expirationMillis, Key secretKey, Map<String, Object> customClaims) {
+    private String generateJwt(Long userId, int expirationMillis, Key secretKey, Map<String, Object> customClaims) {
         return Jwts.builder()
-                .setSubject(userId.asString())
+                .setSubject(userId.toString())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMillis))
                 .addClaims(customClaims)

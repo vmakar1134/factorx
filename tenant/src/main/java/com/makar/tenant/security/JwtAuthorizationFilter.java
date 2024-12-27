@@ -5,6 +5,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.security.Principal;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,7 +30,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final LoginBlacklist loginBlacklist;
 
-    private final PrincipalLookupResolver principalLookupResolver;
+    private final PrincipalLookup principalLookup;
 
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain) throws IOException, ServletException {
@@ -58,7 +61,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private Optional<UserPrincipal> resolvePrincipal(String jwt) {
         var jwtDetails = jwtService.parseAccessJwt(jwt);
-        return principalLookupResolver.resolvePrincipal(jwtDetails.userId());
+        return principalLookup.locate(jwtDetails.userId());
     }
 
     private void authenticate(UserPrincipal userPrincipal) {

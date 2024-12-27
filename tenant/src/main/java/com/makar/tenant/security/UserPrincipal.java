@@ -1,6 +1,5 @@
 package com.makar.tenant.security;
 
-import com.makar.tenant.user.UserId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,9 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UserPrincipal implements UserDetails {
 
-    UserId userId;
+    Long userId;
+
+    UserRole role;
 
     Credentials credentials;
 
@@ -27,7 +28,7 @@ public final class UserPrincipal implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(userId.table().toString()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override
@@ -40,7 +41,7 @@ public final class UserPrincipal implements UserDetails {
         return credentials.username();
     }
 
-    public UserId getUserId() {
+    public Long getUserId() {
         return userId;
     }
 

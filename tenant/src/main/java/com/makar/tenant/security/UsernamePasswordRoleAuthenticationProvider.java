@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UsernamePasswordRoleAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
-    private final PrincipalLookupResolver principalLookupResolver;
+    private final PrincipalLookup principalLookup;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -38,7 +38,7 @@ public class UsernamePasswordRoleAuthenticationProvider extends AbstractUserDeta
     @Override
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         return Optional.ofNullable((UserPrincipal) authentication.getPrincipal())
-                .flatMap(principal -> principalLookupResolver.resolvePrincipal(principal.getUserId()))
+                .flatMap(principal -> principalLookup.locate(principal.getUserId()))
                 .orElseThrow(() -> new UserPrincipalAuthenticationException("Cannot authenticate. Principal not found"));
     }
 }

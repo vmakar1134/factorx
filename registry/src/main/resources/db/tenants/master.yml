@@ -1,10 +1,7 @@
 databaseChangeLog:
   - include:
-      file: "changelog/worker.yml"
+      file: changelog/user.yml
       relativeToChangelogFile: true
   - include:
-      file: "changelog/supervisor.yml"
-      relativeToChangelogFile: true
-  - include:
-      file: "changelog/task.yml"
+      file: changelog/task.yml
       relativeToChangelogFile: true

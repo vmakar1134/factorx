@@ -1,16 +1,20 @@
 package com.makar.tenant.security;
 
-import com.makar.tenant.supervisor.rest.model.LoginSupervisorRequest;
-import com.makar.tenant.supervisor.rest.model.RegistrationRequest;
+import com.makar.tenant.user.supervisor.rest.model.LoginSupervisorRequest;
+import com.makar.tenant.user.supervisor.rest.model.RegistrationRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @RequiredArgsConstructor
 public abstract class AuthService {
 
-    protected final Authenticator authenticator;
+    @Setter(onMethod_ = {@Autowired})
+    protected Authenticator authenticator;
 
-    protected final PrincipalLookup principalLookup;
+    @Setter(onMethod_ = {@Autowired})
+    protected PrincipalLookup principalLookup;
 
     protected abstract void saveEntity(Credentials credentials);
 
@@ -20,8 +24,9 @@ public abstract class AuthService {
     }
 
     public JwtTokenPair login(LoginSupervisorRequest request) {
-        var principal = principalLookup.locate(request.email());
-        return authenticator.authenticate(principal.principal().get(), request.password());
+        return principalLookup.locate(request.email())
+                .map(principal -> authenticator.authenticate(principal, request.password()))
+                .orElseThrow(() -> new IllegalArgumentException("User with email " + request.email() + " not found"));
     }
 
     public JwtTokenPair refresh(String refreshToken) {

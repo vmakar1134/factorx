@@ -1,9 +1,11 @@
 package com.makar.tenant.security;
 
+import java.util.Optional;
+
 public interface PrincipalLookup {
 
-    UserPrincipalLocator locate(Long id);
+    Optional<UserPrincipal> locate(Long id);
 
-    UserPrincipalLocator locate(String username);
+    Optional<UserPrincipal> locate(String username);
 
 }
