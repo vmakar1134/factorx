@@ -20,8 +20,8 @@ public abstract class AuthService {
     }
 
     public JwtTokenPair login(LoginSupervisorRequest request) {
-        var principal = principalLookup.get(request.email());
-        return authenticator.authenticate(principal, request.password());
+        var principal = principalLookup.locate(request.email());
+        return authenticator.authenticate(principal.principal().get(), request.password());
     }
 
     public JwtTokenPair refresh(String refreshToken) {
@@ -34,10 +34,7 @@ public abstract class AuthService {
 
     public void logout() {
         var principal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        principalLookup.find(principal.getId())
-            .ifPresentOrElse(authenticator::logout, () -> {
-                throw new IllegalArgumentException("Principal not found");
-            });
+        authenticator.logout(principal);
     }
 
 }

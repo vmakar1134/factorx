@@ -58,9 +58,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private Optional<UserPrincipal> resolvePrincipal(String jwt) {
         var jwtDetails = jwtService.parseAccessJwt(jwt);
-        var id = jwtDetails.userId();
-        var table = jwtDetails.table();
-        return principalLookupResolver.resolvePrincipal(id, table);
+        return principalLookupResolver.resolvePrincipal(jwtDetails.userId());
     }
 
     private void authenticate(UserPrincipal userPrincipal) {

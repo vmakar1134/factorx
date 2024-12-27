@@ -1,28 +1,28 @@
 package com.makar.tenant.security;
 
+import com.makar.tenant.user.UserId;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 class PrincipalLookupResolver {
 
-    private final Map<PrincipalLookupTable, PrincipalLookup> lookupByTable;
+    private final List<PrincipalLookup> principalLookups;
 
-    public PrincipalLookupResolver(List<PrincipalLookup> lookupByTable) {
-        this.lookupByTable = lookupByTable.stream()
-                .collect(Collectors.toMap(PrincipalLookup::lookupTable, Function.identity()));
+    Optional<UserPrincipal> resolvePrincipal(UserId userId) {
+        var id = userId.id();
+        return findLookup(userId)
+                .map(lookup -> lookup.locate(id).principal().get());
     }
 
-    Optional<UserPrincipal> resolvePrincipal(Long id, PrincipalLookupTable principalLookupTable) {
-        if (!lookupByTable.containsKey(principalLookupTable)) {
-            return Optional.empty();
-        }
-
-        return Optional.of(lookupByTable.get(principalLookupTable).get(id));
+    private Optional<PrincipalLookup> findLookup(UserId userId) {
+        return principalLookups.stream()
+                .filter(principalLookup -> principalLookup.locate(userId.id()).table().equals(userId.table()))
+                .findFirst();
     }
+
 }

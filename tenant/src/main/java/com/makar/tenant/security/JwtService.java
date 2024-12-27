@@ -1,6 +1,7 @@
 package com.makar.tenant.security;
 
 import com.makar.tenant.context.TenantNameContextHolder;
+import com.makar.tenant.user.UserId;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -10,7 +11,6 @@ import java.security.Key;
 import java.util.Date;
 import java.util.Map;
 
-import static com.makar.tenant.security.JwtDetails.TABLE_CLAIM;
 import static com.makar.tenant.security.JwtDetails.TENANT_NAME_CLAIM;
 import static com.makar.tenant.security.JwtDetails.TOKEN_TYPE_CLAIM;
 import static com.makar.tenant.security.TokenType.ACCESS;
@@ -36,10 +36,9 @@ public class JwtService {
 
     JwtTokenPair generateTokens(UserPrincipal userPrincipal) {
         var tenantName = TenantNameContextHolder.find().orElseThrow(() -> new IllegalStateException("Tenant name is not set"));
-        var table = userPrincipal.getTable();
-        var userId = userPrincipal.getId();
-        var accessClaims = customClaims(ACCESS, table, tenantName);
-        var refreshClaims = customClaims(REFRESH, table, tenantName);
+        var accessClaims = customClaims(ACCESS, tenantName);
+        var refreshClaims = customClaims(REFRESH, tenantName);
+        var userId = userPrincipal.getUserId();
         return new JwtTokenPair(
                 generateJwt(userId, ACCESS_TOKEN_EXPIRATION_MILIS, ACCESS_TOKEN_SECRET_KEY, accessClaims),
                 generateJwt(userId, REFRESH_TOKEN_EXPIRATION_MILIS, REFRESH_TOKEN_SECRET_KEY, refreshClaims));
@@ -48,23 +47,22 @@ public class JwtService {
     JwtTokenPair refresh(String refreshToken) {
         var refreshJwtDetails = JwtDetails.from(parseClaims(refreshToken, REFRESH_TOKEN_SECRET_KEY));
         var userId = refreshJwtDetails.userId();
-        var table = refreshJwtDetails.table();
         var tenantName = refreshJwtDetails.tenantName();
 
-        Map<String, Object> accessTokenClaims = customClaims(REFRESH, table, tenantName);
-        Map<String, Object> refreshTokenClaims = customClaims(ACCESS, table, tenantName);
+        Map<String, Object> accessTokenClaims = customClaims(REFRESH, tenantName);
+        Map<String, Object> refreshTokenClaims = customClaims(ACCESS, tenantName);
         var accessJwt = generateJwt(userId, ACCESS_TOKEN_EXPIRATION_MILIS, ACCESS_TOKEN_SECRET_KEY, accessTokenClaims);
         var refreshJwt = generateJwt(userId, REFRESH_TOKEN_EXPIRATION_MILIS, REFRESH_TOKEN_SECRET_KEY, refreshTokenClaims);
         return new JwtTokenPair(accessJwt, refreshJwt);
     }
 
-    private Map<String, Object> customClaims(TokenType tokenType, PrincipalLookupTable table, String tenantName) {
-        return Map.of(TOKEN_TYPE_CLAIM, tokenType, TABLE_CLAIM, table, TENANT_NAME_CLAIM, tenantName);
+    private Map<String, Object> customClaims(TokenType tokenType, String tenantName) {
+        return Map.of(TOKEN_TYPE_CLAIM, tokenType, TENANT_NAME_CLAIM, tenantName);
     }
 
-    private String generateJwt(Long userId, int expirationMillis, Key secretKey, Map<String, Object> customClaims) {
+    private String generateJwt(UserId userId, int expirationMillis, Key secretKey, Map<String, Object> customClaims) {
         return Jwts.builder()
-                .setSubject(String.valueOf(userId))
+                .setSubject(userId.asString())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMillis))
                 .addClaims(customClaims)
