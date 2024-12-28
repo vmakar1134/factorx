@@ -1,5 +1,7 @@
-package com.makar.tenant.pubsub;
+package com.makar.tenant.redis;
 
+import com.makar.tenant.pubsub.Message;
+import com.makar.tenant.pubsub.Publisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;

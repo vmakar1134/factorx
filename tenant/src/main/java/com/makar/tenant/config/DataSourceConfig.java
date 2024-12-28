@@ -1,6 +1,6 @@
 package com.makar.tenant.config;
 
-import com.makar.tenant.connection.TenantAwareDataSource;
+import com.makar.tenant.context.TenantAwareDataSource;
 
 import javax.sql.DataSource;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;

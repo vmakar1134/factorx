@@ -1,5 +1,7 @@
-package com.makar.tenant.pubsub;
+package com.makar.tenant.redis;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.makar.tenant.pubsub.Subscriber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +11,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.List;
@@ -22,9 +25,11 @@ public class RedisConfig {
     private final ConfigurableListableBeanFactory beanFactory;
 
     @Bean
-    RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory connectionFactory) {
-        RedisTemplate<?, ?> template = new RedisTemplate<>();
+     RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory, ObjectMapper objectMapper) {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
+        template.setEnableTransactionSupport(true);
+        template.setDefaultSerializer(new GenericJackson2JsonRedisSerializer(objectMapper));
         return template;
     }
 

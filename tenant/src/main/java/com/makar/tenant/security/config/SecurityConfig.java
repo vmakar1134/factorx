@@ -1,5 +1,7 @@
-package com.makar.tenant.security;
+package com.makar.tenant.security.config;
 
+import com.makar.tenant.security.JwtAuthorizationFilter;
+import com.makar.tenant.security.UsernamePasswordRoleAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
