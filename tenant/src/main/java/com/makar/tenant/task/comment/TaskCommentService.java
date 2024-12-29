@@ -1,6 +1,9 @@
 package com.makar.tenant.task.comment;
 
-import com.makar.tenant.task.comment.rest.model.CommentRequest;
+import com.makar.tenant.exception.EntityNotFoundException;
+import com.makar.tenant.task.Task;
+import com.makar.tenant.task.TaskRepository;
+import com.makar.tenant.task.comment.rest.model.TaskCommentRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +15,16 @@ public class TaskCommentService {
 
     private final TaskCommentMapper taskCommentMapper;
 
-    public void create(CommentRequest request) {
-        var comment = taskCommentMapper.toEntity(request);
-        taskCommentRepository.save(comment);
+    private final TaskRepository taskRepository;
+
+    public void create(TaskCommentRequest request) {
+        if (!taskRepository.existsById(request.taskId())) {
+            throw new EntityNotFoundException(Task.class, "id", "Task not found");
+        }
+
+        var taskComment = taskCommentMapper.toEntity(request);
+        var id = taskCommentRepository.save(taskComment).id();
+        taskCommentRepository.addCommentToTask(id, request.taskId());
     }
+
 }

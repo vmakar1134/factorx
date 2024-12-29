@@ -1,7 +1,7 @@
 package com.makar.tenant.task.comment.rest;
 
 import com.makar.tenant.task.comment.TaskCommentService;
-import com.makar.tenant.task.comment.rest.model.CommentRequest;
+import com.makar.tenant.task.comment.rest.model.TaskCommentRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +14,7 @@ public class TaskCommentController implements TaskCommentApi {
 
 
     @Override
-    public ResponseEntity<Void> createComment(CommentRequest request) {
+    public ResponseEntity<Void> createComment(TaskCommentRequest request) {
         taskCommentService.create(request);
         return ResponseEntity.ok().build();
     }

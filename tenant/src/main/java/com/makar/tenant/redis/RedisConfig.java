@@ -30,6 +30,7 @@ public class RedisConfig {
         template.setConnectionFactory(connectionFactory);
         template.setEnableTransactionSupport(true);
         template.setDefaultSerializer(new GenericJackson2JsonRedisSerializer(objectMapper));
+        template.setKeySerializer(RedisSerializer.string());
         return template;
     }
 

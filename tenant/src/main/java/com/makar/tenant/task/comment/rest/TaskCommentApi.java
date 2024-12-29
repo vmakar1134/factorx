@@ -1,6 +1,7 @@
 package com.makar.tenant.task.comment.rest;
 
-import com.makar.tenant.task.comment.rest.model.CommentRequest;
+import com.makar.tenant.task.comment.rest.model.TaskCommentRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface TaskCommentApi {
 
     @PostMapping
-    ResponseEntity<Void> createComment(@RequestBody CommentRequest request);
+    ResponseEntity<Void> createComment(@RequestBody @Valid TaskCommentRequest request);
 
 }
