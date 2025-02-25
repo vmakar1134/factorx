@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -28,6 +29,11 @@ public class TenantNameFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain) throws ServletException, IOException {
+        if (isCorsPreflightRequest(request)) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         var tenantName = extractTenantName(request);
         if (tenantName.isEmpty()) {
             setErrorResponse(response);
@@ -37,6 +43,13 @@ public class TenantNameFilter extends OncePerRequestFilter {
         TenantNameContextHolder.set(tenantName.get());
         chain.doFilter(request, response);
     }
+
+    private boolean isCorsPreflightRequest(HttpServletRequest request) {
+        return HttpMethod.OPTIONS.name().equals(request.getMethod()) &&
+                request.getHeader("Origin") != null &&
+                request.getHeader("Access-Control-Request-Method") != null;
+    }
+
 
     private Optional<String> extractTenantName(HttpServletRequest request) {
         return extractJwt(request)
