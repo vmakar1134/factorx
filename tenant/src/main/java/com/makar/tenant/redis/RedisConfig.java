@@ -25,7 +25,16 @@ public class RedisConfig {
     private final ConfigurableListableBeanFactory beanFactory;
 
     @Bean
-     RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory, ObjectMapper objectMapper) {
+    RedisTemplate<String, Long> longRedisTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<String, Long> template = new RedisTemplate<>();
+        template.setConnectionFactory(connectionFactory);
+        template.setEnableTransactionSupport(true);
+        template.setKeySerializer(RedisSerializer.string());
+        return template;
+    }
+
+    @Bean
+    RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory, ObjectMapper objectMapper) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
         template.setEnableTransactionSupport(true);

@@ -7,15 +7,12 @@ import jakarta.validation.constraints.NotNull;
 public record TaskCommentRequest(
         @Min(1)
         Long parentId,
-
         @NotNull
         @Min(1)
         Long taskId,
-
         @NotNull
         @Min(1)
         Long authorId,
-
         @NotBlank
         String content
 ) {
