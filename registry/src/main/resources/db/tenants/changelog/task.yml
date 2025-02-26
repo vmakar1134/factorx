@@ -63,3 +63,12 @@ databaseChangeLog:
             baseColumnNames: supervisor_id
             referencedTableName: user
             referencedColumnNames: id
+
+  - changeSet:
+      id: 1677530645638-3
+      author: vmakar
+      changes:
+        - dropNotNullConstraint:
+            tableName: task
+            columnName: worker_id
+            columnDataType: bigint
