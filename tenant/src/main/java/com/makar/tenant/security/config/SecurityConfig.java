@@ -1,12 +1,9 @@
 package com.makar.tenant.security.config;
 
-import static org.springframework.web.cors.CorsConfiguration.ALL;
-
 import com.makar.tenant.security.JwtAuthorizationFilter;
 import com.makar.tenant.security.UsernamePasswordRoleAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,9 +21,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+import static org.springframework.web.cors.CorsConfiguration.ALL;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private static final String[] EXCLUDED_URLS = new String[]{"/actuator/**",
+            "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-ui"};
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http,
@@ -36,6 +38,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(EXCLUDED_URLS).permitAll()
                         .requestMatchers("/admins/auth/login", "/admins/auth/refresh", "/users/auth/refresh", "/users/auth/login", "/error").permitAll()
                         .anyRequest().authenticated()
                 )

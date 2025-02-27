@@ -4,6 +4,8 @@ import com.makar.tenant.task.TaskService;
 import com.makar.tenant.task.rest.model.TaskRequest;
 import com.makar.tenant.task.rest.model.TaskResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +19,12 @@ public class TaskController implements TaskApi {
     public ResponseEntity<TaskResponse> getTask(Long id) {
         var task = taskService.get(id);
         return ResponseEntity.ok(task);
+    }
+
+    @Override
+    public ResponseEntity<Page<TaskResponse>> getTasks(Pageable pageable) {
+        var tasks = taskService.getAll(pageable);
+        return ResponseEntity.ok(tasks);
     }
 
     @Override

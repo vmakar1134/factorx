@@ -15,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WorkerService {
 
+    // TODO: split user and worker entities by role.
     private final UserRepository workerRepository;
 
     private final WorkerMapper userMapper;

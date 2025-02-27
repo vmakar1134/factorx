@@ -10,9 +10,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import static com.makar.tenant.security.JwtService.AUTHORIZATION_HEADER;
@@ -25,29 +27,45 @@ public class TenantNameFilter extends OncePerRequestFilter {
 
     private static final String TENANT_NAME_PARAM = "X-Tenant-Id";
 
+    private static final List<String> EXCLUDED_METHODS = List.of(HttpMethod.OPTIONS.name());
+
+    private static final List<String> EXCLUDED_URLS = List.of("/actuator/**",
+            "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-ui");
+
     private final JwtService jwtService;
 
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain) throws ServletException, IOException {
-        if (isCorsPreflightRequest(request)) {
+        try {
+            if (isExcluded(request)) {
+                chain.doFilter(request, response);
+                return;
+            }
+
+            var tenantName = extractTenantName(request);
+            if (tenantName.isEmpty()) {
+                setErrorResponse(response);
+                return;
+            }
+
+            TenantNameContextHolder.set(tenantName.get());
             chain.doFilter(request, response);
-            return;
+        } catch (Exception e) {
+            log.error("Error in TenantNameFilter", e);
+            handleException(response);
         }
-
-        var tenantName = extractTenantName(request);
-        if (tenantName.isEmpty()) {
-            setErrorResponse(response);
-            return;
-        }
-
-        TenantNameContextHolder.set(tenantName.get());
-        chain.doFilter(request, response);
     }
 
-    private boolean isCorsPreflightRequest(HttpServletRequest request) {
-        return HttpMethod.OPTIONS.name().equals(request.getMethod()) &&
-                request.getHeader("Origin") != null &&
-                request.getHeader("Access-Control-Request-Method") != null;
+    private void handleException(HttpServletResponse response) throws IOException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"error\": \"JWT token expired\"}");
+    }
+
+    private boolean isExcluded(HttpServletRequest request) {
+        AntPathMatcher matcher = new AntPathMatcher();
+        return EXCLUDED_METHODS.contains(request.getMethod()) || EXCLUDED_URLS.stream()
+                .anyMatch(url -> matcher.match(url, request.getRequestURI()));
     }
 
 
