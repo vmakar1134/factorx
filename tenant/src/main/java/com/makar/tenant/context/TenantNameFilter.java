@@ -1,12 +1,14 @@
 package com.makar.tenant.context;
 
-import com.makar.tenant.security.JwtService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
@@ -14,6 +16,8 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +36,7 @@ public class TenantNameFilter extends OncePerRequestFilter {
     private static final List<String> EXCLUDED_URLS = List.of("/actuator/**",
             "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-ui");
 
-    private final JwtService jwtService;
+    private final ObjectMapper objectMapper;
 
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain) throws ServletException, IOException {
@@ -71,7 +75,7 @@ public class TenantNameFilter extends OncePerRequestFilter {
 
     private Optional<String> extractTenantName(HttpServletRequest request) {
         return extractJwt(request)
-                .map(jwt -> jwtService.parseAccessJwt(jwt).tenantName())
+                .map(this::parseTenantName)
                 .or(() -> Optional.ofNullable(request.getHeader(TENANT_NAME_PARAM)))
                 .or(() -> Optional.ofNullable(request.getParameter(TENANT_NAME_PARAM)));
     }
@@ -81,8 +85,33 @@ public class TenantNameFilter extends OncePerRequestFilter {
                 .map(header -> header.substring(BEARER_LENGTH));
     }
 
+    /**
+     * Parse tenant name from JWT token.
+     * <p>Will parse the payload of the JWT token and extract the tenant name from it.
+     * If JWT is expired or invalid, it will not throw an exception, but return null.
+     * It is expected that the JWT token is validated by the security filter chain.</p>
+     */
+    @SneakyThrows
+    private String parseTenantName(String jwt) {
+        String[] parts = jwt.split("\\."); // JWT format: header.payload.signature
+        String payload = new String(Base64.getUrlDecoder().decode(parts[1])); // Decode payload
+        var jwtBody = objectMapper.readValue(payload, new TypeReference<HashMap<String, String>>() {
+        });
+
+        return jwtBody.get("tenant");
+    }
+
+    /**
+     * Set CORS headers, because this filter is called before the CORS filter.
+     * <p>Since we are setting the status to SC_BAD_REQUEST, it does not matter that the CORS policies are "*",
+     * because there is only an error response.</p>
+     */
     private void setErrorResponse(HttpServletResponse response) {
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "*");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+        // TODO: Use different status code, to indicate that the tenant is missing.
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         try {
             response.getWriter().write("Missing tenant header or tenant parameter: " + TENANT_NAME_PARAM);
         } catch (IOException e) {
