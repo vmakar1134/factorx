@@ -1,8 +1,8 @@
 package com.makar.tenant.user.supervisor;
 
 import com.makar.tenant.user.User;
-import com.makar.tenant.user.supervisor.rest.model.CreateSupervisorRequest;
-import com.makar.tenant.user.supervisor.rest.model.SupervisorResponse;
+import com.makar.tenant.user.admin.rest.model.CreateSupervisorRequest;
+import com.makar.tenant.user.admin.rest.model.SupervisorResponse;
 import org.mapstruct.Mapper;
 
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;

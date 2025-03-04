@@ -1,10 +1,9 @@
-package com.makar.tenant.user.supervisor.service;
+package com.makar.tenant.user.supervisor;
 
 import com.makar.tenant.user.User;
-import com.makar.tenant.user.supervisor.SupervisorMapper;
 import com.makar.tenant.user.UserRepository;
-import com.makar.tenant.user.supervisor.rest.model.CreateSupervisorRequest;
-import com.makar.tenant.user.supervisor.rest.model.SupervisorResponse;
+import com.makar.tenant.user.admin.rest.model.CreateSupervisorRequest;
+import com.makar.tenant.user.admin.rest.model.SupervisorResponse;
 import com.makar.tenant.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

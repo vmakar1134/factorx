@@ -3,7 +3,6 @@ package com.makar.tenant.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,9 +13,7 @@ public class Authenticator {
 
     private final LoginBlacklist loginBlacklist;
 
-    private final PasswordEncoder passwordEncoder;
-
-    private final AuthenticationManager authenticationManager;
+   private final AuthenticationManager authenticationManager;
 
     public JwtTokenPair authenticate(UserPrincipal principal, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(principal, password));
@@ -33,9 +30,5 @@ public class Authenticator {
 
     public void logout(UserPrincipal principal) {
         loginBlacklist.add(principal);
-    }
-
-    public Credentials register(String username, String password) {
-        return new Credentials(username, passwordEncoder.encode(password));
     }
 }

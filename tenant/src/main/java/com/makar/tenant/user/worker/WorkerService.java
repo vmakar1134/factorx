@@ -1,9 +1,8 @@
-package com.makar.tenant.user.worker.service;
+package com.makar.tenant.user.worker;
 
 import com.makar.tenant.exception.EntityNotFoundException;
 import com.makar.tenant.user.User;
 import com.makar.tenant.user.UserRepository;
-import com.makar.tenant.user.worker.WorkerMapper;
 import com.makar.tenant.user.worker.rest.model.CreateWorkerRequest;
 import com.makar.tenant.user.worker.rest.model.WorkerResponse;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.makar.tenant.user.supervisor.rest.model;
+package com.makar.tenant.user.rest.model;
 
 public record RefreshRequest(
         String refreshToken
