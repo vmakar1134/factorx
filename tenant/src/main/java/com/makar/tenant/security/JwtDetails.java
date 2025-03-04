@@ -8,13 +8,11 @@ import java.time.Instant;
 @Getter
 public class JwtDetails {
 
-    static final String TABLE_CLAIM = "table";
-    static final String TENANT_NAME_CLAIM = "tenant";
-    static final String TOKEN_TYPE_CLAIM = "type";
+    public static final String TENANT_NAME_CLAIM = "tenant";
+    public static final String TOKEN_TYPE_CLAIM = "type";
 
     private final String tenantName;
     private final Long userId;
-    private final PrincipalLookupTable table;
     private final TokenType tokenType;
     private final Instant issuedAt;
     private final Instant expiredAt;
@@ -22,13 +20,12 @@ public class JwtDetails {
     private JwtDetails(Claims claims) {
         this.tenantName = claims.get(TENANT_NAME_CLAIM, String.class);
         this.tokenType = TokenType.valueOf(claims.get(TOKEN_TYPE_CLAIM, String.class));
-        this.table = PrincipalLookupTable.valueOf(claims.get(TABLE_CLAIM, String.class));
         this.userId = Long.valueOf(claims.getSubject());
         this.issuedAt = claims.getIssuedAt().toInstant();
         this.expiredAt = claims.getExpiration().toInstant();
     }
 
-    static JwtDetails from(Claims claims) {
+    public static JwtDetails from(Claims claims) {
         return new JwtDetails(claims);
     }
 }

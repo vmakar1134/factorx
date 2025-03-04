@@ -1,5 +1,6 @@
 package com.makar.tenant.security;
 
+import com.makar.tenant.redis.RedisKeyTemplate;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -14,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 class LoginBlacklist {
 
     private static final String PLACEHOLDER = "1";
+
+    private static final RedisKeyTemplate ROOT_KEY = RedisKeyTemplate.root("jwt");
 
     private final RedisTemplate<String, String> redisTemplate;
 
@@ -45,7 +48,7 @@ class LoginBlacklist {
     }
 
     private String idKey(UserPrincipal principal) {
-        return "%s:%s".formatted(principal.getId(), principal.getTable());
+        return ROOT_KEY.append(principal.getUserId()).key();
     }
 
     private String hashToken(String jwt) {

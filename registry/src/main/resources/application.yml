@@ -5,9 +5,9 @@ spring:
     password: factorx_dev
   liquibase:
     registry:
-      change-log: classpath:/db/registry/master.xml
+      change-log: classpath:/db/registry/master.yml
     tenant:
-      change-log: classpath:/db/tenants/master.xml
+      change-log: classpath:/db/tenants/master.yml
   data:
     jdbc:
       repositories:

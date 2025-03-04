@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+  - changeSet:
+      author: vmakar
+      id: 1677530645638-1
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  autoIncrement: true
+                  name: id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_admin
+              - column:
+                  name: email
+                  type: text
+              - column:
+                  name: password
+                  type: text
+              - column:
+                  name: otp
+                  type: text
+              - column:
+                  name: otp_created_at
+                  type: timestamp
+              - column:
+                  name: role
+                  type: text
+        - addUniqueConstraint:
+            columnNames: email
+            constraintName: uc_admin_email
+            tableName: user

@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: "changelog/tenant.yml"
+      relativeToChangelogFile: true

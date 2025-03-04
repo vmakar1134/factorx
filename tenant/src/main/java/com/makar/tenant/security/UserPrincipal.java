@@ -14,11 +14,11 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UserPrincipal implements UserDetails {
 
-    Long id;
+    Long userId;
+
+    UserRole role;
 
     Credentials credentials;
-
-    PrincipalLookupTable table;
 
     /**
      * Currently we are returning a single authority based on the table where the {@code Principal} is stored.
@@ -28,7 +28,7 @@ public final class UserPrincipal implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(table.toString()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override
@@ -41,12 +41,8 @@ public final class UserPrincipal implements UserDetails {
         return credentials.username();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public PrincipalLookupTable getTable() {
-        return table;
+    public Long getUserId() {
+        return userId;
     }
 
 }

@@ -1,16 +1,20 @@
 package com.makar.tenant.security;
 
-import com.makar.tenant.admin.rest.model.LoginAdminRequest;
-import com.makar.tenant.admin.rest.model.RegistrationRequest;
+import com.makar.tenant.user.supervisor.rest.model.LoginSupervisorRequest;
+import com.makar.tenant.user.supervisor.rest.model.RegistrationRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @RequiredArgsConstructor
 public abstract class AuthService {
 
-    protected final Authenticator authenticator;
+    @Setter(onMethod_ = {@Autowired})
+    protected Authenticator authenticator;
 
-    protected final PrincipalLookup principalLookup;
+    @Setter(onMethod_ = {@Autowired})
+    protected PrincipalLookup principalLookup;
 
     protected abstract void saveEntity(Credentials credentials);
 
@@ -19,9 +23,10 @@ public abstract class AuthService {
         saveEntity(credentials);
     }
 
-    public JwtTokenPair login(LoginAdminRequest request) {
-        var principal = principalLookup.get(request.email());
-        return authenticator.authenticate(principal, request.password());
+    public JwtTokenPair login(LoginSupervisorRequest request) {
+        return principalLookup.locate(request.email())
+                .map(principal -> authenticator.authenticate(principal, request.password()))
+                .orElseThrow(() -> new IllegalArgumentException("User with email " + request.email() + " not found"));
     }
 
     public JwtTokenPair refresh(String refreshToken) {
@@ -34,10 +39,7 @@ public abstract class AuthService {
 
     public void logout() {
         var principal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        principalLookup.find(principal.getId())
-            .ifPresentOrElse(authenticator::logout, () -> {
-                throw new IllegalArgumentException("Principal not found");
-            });
+        authenticator.logout(principal);
     }
 
 }

@@ -2,7 +2,6 @@ package com.makar.tenant.security;
 
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -27,16 +26,29 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final LoginBlacklist loginBlacklist;
 
-    private final PrincipalLookupResolver principalLookupResolver;
+    private final PrincipalLookup principalLookup;
 
     @Override
-    protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain) throws IOException, ServletException {
-        extractJwt(request)
-                .flatMap(jwt -> resolvePrincipal(jwt)
-                        .filter(principal -> !isBlacklisted(principal, jwt)))
-                .ifPresent(this::authenticate);
+    protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain) throws IOException {
+        try {
+            extractJwt(request)
+                    .flatMap(jwt -> resolvePrincipal(jwt)
+                            .filter(principal -> !isBlacklisted(principal, jwt)))
+                    .ifPresent(this::authenticate);
 
-        chain.doFilter(request, response);
+            chain.doFilter(request, response);
+        } catch (Exception e) {
+            log.error("Error in JwtAuthorizationFilter", e);
+            handleException(response);
+        } finally {
+            SecurityContextHolder.clearContext();
+        }
+    }
+
+    private void handleException(HttpServletResponse response) throws IOException {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"error\": \"JWT token expired\"}");
     }
 
     private Optional<String> extractJwt(HttpServletRequest request) {
@@ -58,9 +70,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private Optional<UserPrincipal> resolvePrincipal(String jwt) {
         var jwtDetails = jwtService.parseAccessJwt(jwt);
-        var id = jwtDetails.userId();
-        var table = jwtDetails.table();
-        return principalLookupResolver.resolvePrincipal(id, table);
+        return principalLookup.locate(jwtDetails.userId());
     }
 
     private void authenticate(UserPrincipal userPrincipal) {
