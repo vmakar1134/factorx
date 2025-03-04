@@ -7,15 +7,15 @@ import com.makar.tenant.user.worker.WorkerMapper;
 import com.makar.tenant.user.worker.rest.model.CreateWorkerRequest;
 import com.makar.tenant.user.worker.rest.model.WorkerResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class WorkerService {
 
-    // TODO: split user and worker entities by role.
+    // TODO: split admin and worker entities by role.
     private final UserRepository workerRepository;
 
     private final WorkerMapper userMapper;
@@ -29,10 +29,9 @@ public class WorkerService {
         return workerRepository.existsById(id);
     }
 
-    public List<WorkerResponse> get() {
-        return workerRepository.findAll().stream()
-                .map(userMapper::toResponse)
-                .toList();
+    public Page<WorkerResponse> get(Pageable pageable) {
+        return workerRepository.findAll(pageable)
+                .map(userMapper::toResponse);
     }
 
     public void create(CreateWorkerRequest request) {

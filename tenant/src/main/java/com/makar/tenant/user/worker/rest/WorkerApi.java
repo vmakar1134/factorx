@@ -2,8 +2,10 @@ package com.makar.tenant.user.worker.rest;
 
 import com.makar.tenant.user.worker.rest.model.CreateWorkerRequest;
 import com.makar.tenant.user.worker.rest.model.WorkerResponse;
-
-import java.util.List;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +21,7 @@ public interface WorkerApi {
     ResponseEntity<WorkerResponse> getUser(@PathVariable("id") Long id);
 
     @GetMapping
-    ResponseEntity<List<WorkerResponse>> getUsers();
+    ResponseEntity<Page<WorkerResponse>> getUsers(@ParameterObject @PageableDefault Pageable pageable);
 
     @PostMapping
     ResponseEntity<Void> createUser(@RequestBody CreateWorkerRequest request);
