@@ -1,11 +1,12 @@
 package com.makar.tenant.user;
 
 
-import org.springframework.data.repository.ListCrudRepository;
-
 import java.util.Optional;
 
-public interface UserRepository extends ListCrudRepository<User, Long> {
+import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+public interface UserRepository extends ListCrudRepository<User, Long>, PagingAndSortingRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 

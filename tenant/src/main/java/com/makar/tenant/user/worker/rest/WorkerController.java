@@ -3,8 +3,9 @@ package com.makar.tenant.user.worker.rest;
 import com.makar.tenant.user.worker.rest.model.CreateWorkerRequest;
 import com.makar.tenant.user.worker.rest.model.WorkerResponse;
 import com.makar.tenant.user.worker.service.WorkerService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,8 +22,8 @@ public class WorkerController implements WorkerApi {
     }
 
     @Override
-    public ResponseEntity<List<WorkerResponse>> getUsers() {
-        var body = workerService.get();
+    public ResponseEntity<Page<WorkerResponse>> getUsers(Pageable pageable) {
+        var body = workerService.get(pageable);
         return ResponseEntity.ok(body);
     }
 
