@@ -110,7 +110,6 @@ public class TenantNameFilter extends OncePerRequestFilter {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Allow-Headers", "*");
-        // TODO: Use different status code, to indicate that the tenant is missing.
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         try {
             response.getWriter().write("Missing tenant header or tenant parameter: " + TENANT_NAME_PARAM);

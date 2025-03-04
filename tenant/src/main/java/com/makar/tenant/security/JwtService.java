@@ -18,7 +18,6 @@ import static com.makar.tenant.security.TokenType.REFRESH;
 @Service
 public class JwtService {
 
-    // TODO: move to properties.
     private static final String ACCESS_TOKEN_SECRET_STRING = "access-secret-key-256-bytes-long-your-secret-key-256-bytes-long";
     private static final String REFRESH_TOKEN_SECRET_STRING = "refresh-secret-key-256-bytes-long-your-secret-key-256-bytes-long";
     private static final Key ACCESS_TOKEN_SECRET_KEY = Keys.hmacShaKeyFor(ACCESS_TOKEN_SECRET_STRING.getBytes());

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class WorkerService {
 
-    // TODO: split admin and worker entities by role.
     private final UserRepository workerRepository;
 
     private final WorkerMapper userMapper;
@@ -31,7 +30,7 @@ public class WorkerService {
 
     public Page<WorkerResponse> get(Pageable pageable) {
         return workerRepository.findAll(pageable)
-                .map(userMapper::toResponse);
+            .map(userMapper::toResponse);
     }
 
     public void create(CreateWorkerRequest request) {
@@ -45,7 +44,7 @@ public class WorkerService {
 
     private User getById(Long id) {
         return workerRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(User.class, "id", id));
+            .orElseThrow(() -> new EntityNotFoundException(User.class, "id", id));
     }
 
 }

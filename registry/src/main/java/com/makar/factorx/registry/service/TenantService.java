@@ -44,7 +44,7 @@ public class TenantService {
     public void create(CreateTenantRequest request) {
         var tenant = tenantMapper.toEntity(request);
         tenantRepository.save(tenant);
-        liquibaseService.runOnSchema(request.getSchemaName());
+        liquibaseService.runOnSchema(request.schemaName());
     }
 
     @Transactional
