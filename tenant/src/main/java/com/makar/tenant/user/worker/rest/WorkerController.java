@@ -6,6 +6,7 @@ import com.makar.tenant.user.worker.service.WorkerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,4 +39,5 @@ public class WorkerController implements WorkerApi {
         workerService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
 }

@@ -30,6 +30,11 @@ public class SecurityConfig {
     private static final String[] EXCLUDED_URLS = new String[]{"/actuator/**",
             "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-ui"};
 
+    private static final String[] AUTH_URLS = new String[]{"/admins/auth/login", "/admins/auth/refresh", "/users/auth/refresh",
+            "/users/auth/login"};
+
+    private static final String[] ADMIN_URLS = new String[]{"/admins/**"};
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http,
                                             JwtAuthorizationFilter jwtAuthorizationFilter,
@@ -39,7 +44,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(EXCLUDED_URLS).permitAll()
-                        .requestMatchers("/admins/auth/login", "/admins/auth/refresh", "/users/auth/refresh", "/users/auth/login", "/error").permitAll()
+                        .requestMatchers(AUTH_URLS).permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(HttpBasicConfigurer::disable)

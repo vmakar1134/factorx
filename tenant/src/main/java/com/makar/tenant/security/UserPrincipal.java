@@ -45,4 +45,8 @@ public final class UserPrincipal implements UserDetails {
         return userId;
     }
 
+    public UserRole getRole() {
+        return role;
+    }
+
 }
