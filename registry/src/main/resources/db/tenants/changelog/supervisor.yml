@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-supervisor-table
+      author: vmakar
+      changes:
+        - createTable:
+            tableName: supervisor
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    autoIncrement: true
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    unique: true
+                    foreignKeyName: fk_supervisor_user
+                    references: user(id)
