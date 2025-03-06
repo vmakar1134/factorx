@@ -10,4 +10,6 @@ public interface UserRepository extends ListCrudRepository<User, Long>, PagingAn
 
     Optional<User> findByEmail(String email);
 
+    boolean existsByEmail(String email);
+
 }

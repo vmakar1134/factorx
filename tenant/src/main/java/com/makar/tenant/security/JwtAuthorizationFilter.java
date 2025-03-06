@@ -1,7 +1,15 @@
 package com.makar.tenant.security;
 
+import java.io.IOException;
+import java.util.Optional;
+
+import static com.makar.tenant.security.JwtService.AUTHORIZATION_HEADER;
+import static com.makar.tenant.security.JwtService.BEARER_LENGTH;
+
+import io.jsonwebtoken.JwtException;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -10,12 +18,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.io.IOException;
-import java.util.Optional;
-
-import static com.makar.tenant.security.JwtService.AUTHORIZATION_HEADER;
-import static com.makar.tenant.security.JwtService.BEARER_LENGTH;
 
 @Slf4j
 @Component
@@ -29,7 +31,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final PrincipalLookup principalLookup;
 
     @Override
-    protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain) throws IOException {
+    protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain) throws IOException, ServletException {
         try {
             extractJwt(request)
                     .flatMap(jwt -> resolvePrincipal(jwt)
@@ -37,7 +39,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                     .ifPresent(this::authenticate);
 
             chain.doFilter(request, response);
-        } catch (Exception e) {
+        } catch (JwtException e) {
             log.error("Error in JwtAuthorizationFilter", e);
             handleException(response);
         } finally {
