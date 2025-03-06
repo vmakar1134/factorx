@@ -2,11 +2,10 @@ package com.makar.tenant.user.worker.rest;
 
 import com.makar.tenant.user.worker.rest.model.CreateWorkerRequest;
 import com.makar.tenant.user.worker.rest.model.WorkerResponse;
-import com.makar.tenant.user.worker.service.WorkerService;
+import com.makar.tenant.user.worker.WorkerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 

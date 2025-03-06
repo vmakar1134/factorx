@@ -1,4 +1,4 @@
-package com.makar.tenant.user.supervisor.rest.model;
+package com.makar.tenant.user.admin.rest.model;
 
 public record SupervisorResponse(
         Long id,

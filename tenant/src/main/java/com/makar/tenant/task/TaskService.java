@@ -3,7 +3,7 @@ package com.makar.tenant.task;
 import com.makar.tenant.exception.EntityNotFoundException;
 import com.makar.tenant.task.rest.model.TaskRequest;
 import com.makar.tenant.task.rest.model.TaskResponse;
-import com.makar.tenant.user.worker.service.WorkerService;
+import com.makar.tenant.user.worker.WorkerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
